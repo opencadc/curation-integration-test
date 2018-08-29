@@ -1,5 +1,5 @@
 # integration_test
-Provides skeleton necessary to run all the unit and integration tests for the repositories in this organization, using the scripts run_unit_test.sh and run_int_test.sh. The ROOT_DIR definition in each of the scripts may need to be changed. The scripts assume Docker.
+Provides skeleton necessary to run all the unit and integration tests for the repositories in this organization, using the scripts run_unit_test.sh and run_int_test.sh. The ROOT_DIR definition in each of the scripts may need to be changed. The scripts assume Docker, and that clones of the repositories in this organization exist as siblings to this repository.
 
 There are test cases which require .netrc files or proxy certificates, to be provided separately.
 
