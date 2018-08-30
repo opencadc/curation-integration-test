@@ -154,12 +154,12 @@ check_client_augment() {
 
 check_client_ingest_modify() {
   echo 'check_client_ingest_modify'
-  failure_log="${RUN_ROOT}/ingest_modify/logs/failure_log.txt"
-  success_log="${RUN_ROOT}/ingest_modify/logs/success_log.txt"
+  failure_log="${RUN_ROOT}/client_ingest_modify/logs/failure_log.txt"
+  success_log="${RUN_ROOT}/client_ingest_modify/logs/success_log.txt"
   fname="C170323_domeflat_K_CALRED"
-  xml="${RUN_ROOT}/ingest_modify/${fname}.fits.xml"
-  prev="${RUN_ROOT}/ingest_modify/${fname}_prev.jpg"
-  thumb="${RUN_ROOT}/ingest_modify/${fname}_prev_256.jpg"
+  xml="${RUN_ROOT}/client_ingest_modify/${fname}.fits.xml"
+  prev="${RUN_ROOT}/client_ingest_modify/${fname}_prev.jpg"
+  thumb="${RUN_ROOT}/client_ingest_modify/${fname}_prev_256.jpg"
   file_exists ${failure_log}
   file_exists ${success_log}
   file_exists ${xml}
