@@ -1,0 +1,6 @@
+**/*.fits
+**/*.fits.gz
+**/*.xml
+**/*.txt
+**/cadcproxy.pem
+**/logs

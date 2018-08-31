@@ -5,6 +5,7 @@ RUN_ROOT=${ROOT_DIR}/tests/int_test
 TOOLS_ROOT=${ROOT_DIR}/caom2tools
 OMM_ROOT=${ROOT_DIR}/omm2caom2
 VLASS_ROOT=${ROOT_DIR}/vlass2caom2
+CONT_ROOT="/usr/src/app"
 
 # stop if a file has any content
 file_is_zero() {
@@ -63,6 +64,36 @@ file_does_not_have_content() {
   fi
 }
 
+check_observation_in_db() {
+  collection="${1}"
+  obs_id="${2}"
+  xml="${obs_id}.xml"
+  actual_outside_container="${RUN_ROOT}/actual/${xml}"
+  actual="${CONT_ROOT}/actual/${xml}"
+  expected="${CONT_ROOT}/expected/${xml}"
+  output=$(caom2-repo read --cert ${HOME}/.ssl/cadcproxy.pem --resource-id ivo://cadc.nrc.ca/sc2repo ${collection} ${obs_id} > ${actual_outside_container} )
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "caom2-repo failed for ${obs_id}"
+    echo "${output}"
+    exit -1
+  fi
+  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} omm_run_int python compare_observations.py ${expected} ${actual} 2>&1)
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "compare_observations execution failed for ${obs_id}"
+    echo "${output}"
+    exit -1
+  fi
+  if [[ "${#output}" -gt 0 ]]
+  then
+    echo "compare_observations failed for ${obs_id}"
+    echo "${output}"
+    exit -1
+  fi
+}
+
 check_complete() {
   echo "check_${1}"
   failure_log="${RUN_ROOT}/${1}/logs/failure_log.txt"
@@ -112,6 +143,10 @@ check_store_ingest_modify() {
   file_does_not_have_content "caom2:metaChecksum" ${xml}
   # the content checksum is being executed
   file_does_not_have_content "TaskType.CHECKSUM" ${log}
+  obs_id="C180616_0135_SCI"
+  check_observation_in_db OMM ${obs_id}
+  obs_id="C180108_0002_SCI"
+  check_observation_in_db OMM ${obs_id}
 }
 
 check_ingest_modify_local() {
@@ -128,6 +163,8 @@ check_ingest_modify_local() {
   file_does_not_have_content "caom2:metaChecksum" ${xml}
   # file_does_not_have_content "footprint generation" ${log}
   file_is_zero ${txt}
+  obs_id="C080121_0339_SCI"
+  check_observation_in_db OMM ${obs_id}
 }
 
 check_ingest_modify() {
@@ -143,6 +180,8 @@ check_ingest_modify() {
   file_exists ${xml}
   file_exists ${prev}
   file_exists ${thumb}
+  obs_id="C170323_domeflat_K_CALRED"
+  check_observation_in_db OMM ${obs_id}
 }
 
 check_client_augment() {
@@ -150,6 +189,8 @@ check_client_augment() {
   fname=" VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits"
   xml="${RUN_ROOT}/augment/VLASS1.1.T01t01.J000228-363000.xml"
   file_exists ${xml}
+  obs_id="VLASS1.1.T01t01.J000228-363000"
+  check_observation_in_db VLASS ${obs_id}
 }
 
 check_client_ingest_modify() {
@@ -165,6 +206,8 @@ check_client_ingest_modify() {
   file_exists ${xml}
   file_exists ${prev}
   file_exists ${thumb}
+  obs_id="C170323_domeflat_K_CALRED"
+  check_observation_in_db OMM ${obs_id}
 }
 
 check_todo_parameter() {
@@ -179,8 +222,10 @@ check_client_visit() {
   echo 'check_client_visit'
   failure_log="${RUN_ROOT}/visit/logs/failure_log.txt"
   success_log="${RUN_ROOT}/visit/logs/success_log.txt"
+  obs_id="VLASS1.1.T01t01.J000228-363000"
   file_is_not_zero ${failure_log}
   file_is_zero ${success_log}
+  check_observation_in_db VLASS ${obs_id}
 }
 
 cleanup_files() {
@@ -253,7 +298,7 @@ do
   cleanup_files "${run_dir}/logs/*.txt"
   cleanup_files "${run_dir}/*.jpg"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
-  output="$(docker run --rm -v ${run_dir}:/usr/src/app vlass_run_int vlass_run 2>&1)"
+  output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run 2>&1)"
   result=$?
   if [[ ${result} -ne 0 ]]
   then
@@ -273,8 +318,8 @@ do
   cleanup_files "${run_dir}/logs/*.txt"
   cleanup_files "${run_dir}/*.jpg"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
-  docker run --rm -v ${run_dir}:/usr/src/app vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits /usr/src/app/cadcproxy.pem
-  docker run --rm -v ${run_dir}:/usr/src/app vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits /usr/src/app/cadcproxy.pem
+  docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits /usr/src/app/cadcproxy.pem
+  docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits /usr/src/app/cadcproxy.pem
   result=$?
   if [[ ${result} -ne 0 ]]
   then
@@ -293,7 +338,7 @@ do
   cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.jpg"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
-  docker run --rm -v ${run_dir}:/usr/src/app omm_run_int omm_run_single C170323_domeflat_K_CALRED /usr/src/app/cadcproxy.pem
+  docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run_single C170323_domeflat_K_CALRED /usr/src/app/cadcproxy.pem
   result=$?
   if [[ ${result} -ne 0 ]]
   then
@@ -312,8 +357,8 @@ do
   run_dir=${RUN_ROOT}/${ii}
   cleanup_files "${run_dir}/logs/*.txt"
   cleanup_files "${run_dir}/logs/*.log"
-  # output="$(docker run --rm -v ${run_dir}:/usr/src/app omm_run_int omm_run --todo ./abc.txt 2>&1)"
-  docker run --rm -v ${run_dir}:/usr/src/app omm_run_int omm_run --todo ./abc.txt
+  # output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run --todo ./abc.txt 2>&1)"
+  docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run --todo ./abc.txt
   result=$?
   if [[ ${result} -ne 0 ]]
   then
@@ -333,7 +378,7 @@ do
   cleanup_files "${run_dir}/*.xml"
   cleanup_files "${run_dir}/*.jpg"
 
-  output="$(docker run --rm -v ${run_dir}:/usr/src/app omm_run_int omm_run 2>&1)"
+  output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1)"
   result=$?
   if [[ ${result} -ne 0 ]]
   then
