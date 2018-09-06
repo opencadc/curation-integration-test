@@ -139,11 +139,11 @@
       <caom2:polarization/>
       <caom2:artifacts>
         <caom2:artifact caom2:id="00000000-0000-0000-ac7f-5f82c1c87172" caom2:lastModified="2018-08-30T20:04:31.768" caom2:maxLastModified="2018-08-30T20:04:35.017" caom2:metaChecksum="md5:f311deaa57c3084ba419255e815c9eb8" caom2:accMetaChecksum="md5:afe5a82dbeac118a73a9eccf15e8cf34">
-          <caom2:uri>ad:OMM/C080121_0339_SCI.fits</caom2:uri>
+          <caom2:uri>ad:OMM/C080121_0339_SCI.fits.gz</caom2:uri>
           <caom2:productType>science</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
-          <caom2:contentType>application/octet-stream</caom2:contentType>
-          <caom2:contentLength>16790400</caom2:contentLength>
+          <caom2:contentType>application/fits</caom2:contentType>
+          <caom2:contentLength>103583</caom2:contentLength>
           <caom2:contentChecksum>md5:eb7ca5cddbb3a8b832bd7a0f5c04781e</caom2:contentChecksum>
           <caom2:parts>
             <caom2:part caom2:id="00000000-0000-0000-9875-b72dd9eb1b0e" caom2:lastModified="2018-08-30T20:04:31.768" caom2:maxLastModified="2018-08-30T20:04:35.017" caom2:metaChecksum="md5:547527f51492eba82a30a649f1ceb33a" caom2:accMetaChecksum="md5:124c230daf6ec41a5a4e2dfd13ccee56">

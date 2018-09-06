@@ -17,6 +17,7 @@ COPY ./vlass2caom2_unit ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 
 
 COPY ./vlass2caom2_unit/data/ArchiveQuery-2018-08-15.csv /usr/src/
+COPY ./vlass2caom2_unit/data/rejected_file_names-2018-09-05.csv /usr/src/
 COPY ./docker-entrypoint.sh /usr/src/app/vlass2caom2
 
 ENTRYPOINT ["/usr/src/app/vlass2caom2/docker-entrypoint.sh"]

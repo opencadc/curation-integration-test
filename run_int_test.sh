@@ -145,25 +145,35 @@ check_store_ingest_modify() {
   file_does_not_have_content "TaskType.CHECKSUM" ${log}
   obs_id="C180616_0135_SCI"
   check_observation_in_db OMM ${obs_id}
-  obs_id="C180108_0002_SCI"
-  check_observation_in_db OMM ${obs_id}
 }
 
 check_ingest_modify_local() {
-  check_complete ingest_modify_local C080121_0339_SCI
+  check_dir="${RUN_ROOT}/ingest_modify_local"
+  failure_log="${check_dir}/logs/failure_log.txt"
+  success_log="${check_dir}/logs/success_log.txt"
+  xml="${check_dir}/C080121_0339_SCI.fits.xml"
+  prev="${check_dir}/C080121_0339_SCI_prev.jpg"
+  thumb="${check_dir}/C080121_0339_SCI_prev_256.jpg"
+  file_is_not_zero ${failure_log}
+  file_is_zero ${success_log}
+  file_is_zero ${xml}
+  file_is_zero ${prev}
+  file_is_zero ${thumb}
   # caom2repo service is working
-  xml="${RUN_ROOT}/ingest_modify_local/C080121_0339_SCI.fits.xml"
+  xml="${check_dir}/C080121_0339_SCI.fits.xml"
   #
   # this file will not have footprintfinder results, because there
   # is no WCS in it - but check to make sure that is what's
   # actually happening, and that the log message is doing the output
   #
-  log="${RUN_ROOT}/ingest_modify_local/logs/C080121_0339_SCI.log"
-  txt="${RUN_ROOT}/ingest_modify_local/logs/C080121_0339_SCI_footprint.txt"
+  log="${check_dir}/logs/C080121_0339_SCI.log"
+  txt="${check_dir}/logs/C080121_0339_SCI_footprint.txt"
   file_does_not_have_content "caom2:metaChecksum" ${xml}
   # file_does_not_have_content "footprint generation" ${log}
   file_is_zero ${txt}
   obs_id="C080121_0339_SCI"
+  check_observation_in_db OMM ${obs_id}
+  obs_id="C180108_0002_SCI"
   check_observation_in_db OMM ${obs_id}
 }
 
@@ -184,12 +194,14 @@ check_ingest_modify() {
   check_observation_in_db OMM ${obs_id}
 }
 
-check_client_augment() {
-  echo 'check_client_augment'
+check_client_ingest() {
+  echo 'check_client_ingest'
   fname=" VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits"
-  xml="${RUN_ROOT}/augment/VLASS1.1.T01t01.J000228-363000.xml"
+  xml="${RUN_ROOT}/ingest/VLASS1.1.T01t01.J000228-363000.xml"
   file_exists ${xml}
   obs_id="VLASS1.1.T01t01.J000228-363000"
+  check_observation_in_db VLASS ${obs_id}
+  obs_id="VLASS1.1.T10t12.J075402-033000"
   check_observation_in_db VLASS ${obs_id}
 }
 
@@ -271,6 +283,7 @@ copy_pip_install ${VLASS_ROOT} vlass2caom2 vlass2caom2
 
 mkdir -p vlass2caom2/data || exit $?
 cp ${VLASS_ROOT}/data/ArchiveQuery-2018-08-15.csv vlass2caom2/data || exit $?
+cp ${VLASS_ROOT}/data/rejected_file_names-2018-09-05.csv vlass2caom2/data || exit $?
 
 # copy the latest version of omm2caom2 code that's required for a python install
 mkdir -p omm2caom2 || exit $?
@@ -296,6 +309,7 @@ do
   run_dir=${RUN_ROOT}/${ii}
 
   cleanup_files "${run_dir}/logs/*.txt"
+  cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.jpg"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
   output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run 2>&1)"
@@ -310,7 +324,7 @@ do
 done
 
 # test the permutations that support a client-based implementation for VLASS
-for ii in augment
+for ii in ingest
 do
   echo "Run ${ii} test case ..."
   run_dir=${RUN_ROOT}/${ii}
@@ -320,6 +334,8 @@ do
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
   docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits /usr/src/app/cadcproxy.pem
   docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits /usr/src/app/cadcproxy.pem
+  docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T10t12.J075402-033000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits /usr/src/app/cadcproxy.pem
+  docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run_single VLASS1.1.ql.T10t12.J075402-033000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits /usr/src/app/cadcproxy.pem
   result=$?
   if [[ ${result} -ne 0 ]]
   then

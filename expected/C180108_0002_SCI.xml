@@ -64,7 +64,7 @@
           <caom2:uri>ad:OMM/C180108_0002_SCI.fits.gz</caom2:uri>
           <caom2:productType>science</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
-          <caom2:contentType>application/octet-stream</caom2:contentType>
+          <caom2:contentType>application/fits</caom2:contentType>
           <caom2:contentLength>3236045</caom2:contentLength>
           <caom2:contentChecksum>md5:193d101b6f72f762d26c5209ac7f0dcf</caom2:contentChecksum>
           <caom2:parts>
