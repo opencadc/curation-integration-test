@@ -192,6 +192,10 @@ check_ingest_modify() {
   file_exists ${thumb}
   obs_id="C170323_domeflat_K_CALRED"
   check_observation_in_db OMM ${obs_id}
+  obs_id="C120213_0004_REJECT"
+  check_observation_in_db OMM ${obs_id}
+  obs_id="C100521_domeflat_K_CALRED"
+  check_observation_in_db OMM ${obs_id}
 }
 
 check_client_ingest() {
