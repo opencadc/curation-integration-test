@@ -14,7 +14,10 @@ COPY ./caom2tools_unit ./caom2tools
 RUN cd caom2tools && pip install ./caom2pipe && \
 	pip install ./caom2 && pip install ./caom2utils && cd ..
 
-COPY ./docker-entrypoint.sh /usr/src/app/caom2tools/caom2pipe
+COPY ./cgps2caom2_unit ./cgps2caom2/
+RUN pip install ./cgps2caom2/ 
 
-ENTRYPOINT ["/usr/src/app/caom2tools/caom2pipe/docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /usr/src/app/cgps2caom2
+
+ENTRYPOINT ["/usr/src/app/cgps2caom2/docker-entrypoint.sh"]
 
