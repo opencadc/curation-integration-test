@@ -1,5 +1,4 @@
 FROM python:3.6
-#FROM python:2.7
 
 RUN pip install astropy && pip install numpy && \
         pip install spherical-geometry
@@ -15,7 +14,10 @@ COPY ./caom2tools_unit ./caom2tools
 RUN cd caom2tools && pip install ./caom2pipe && \
 	pip install ./caom2 && pip install ./caom2utils && cd ..
 
-COPY ./docker-entrypoint.sh /usr/src/app/caom2tools/caom2pipe
+COPY ./draosfm2caom2_unit ./draosfm2caom2/
+RUN pip install ./draosfm2caom2/ 
 
-ENTRYPOINT ["/usr/src/app/caom2tools/caom2pipe/docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /usr/src/app/draosfm2caom2
+
+ENTRYPOINT ["/usr/src/app/draosfm2caom2/docker-entrypoint.sh"]
 

@@ -3,6 +3,7 @@
 ROOT_DIR="${HOME}/work/cadc"
 RUN_ROOT=${ROOT_DIR}/tests/int_test
 TOOLS_ROOT=${ROOT_DIR}/caom2tools
+CGPS_ROOT=${ROOT_DIR}/cgps2caom2
 OMM_ROOT=${ROOT_DIR}/omm2caom2
 VLASS_ROOT=${ROOT_DIR}/vlass2caom2
 CONT_ROOT="/usr/src/app"
@@ -244,6 +245,15 @@ check_client_visit() {
   check_observation_in_db VLASS ${obs_id}
 }
 
+check_client_visit_cgps() {
+  echo 'check_client_visit_cgps'
+  failure_log="${RUN_ROOT}/visit_cgps/logs/failure_log.txt"
+  success_log="${RUN_ROOT}/visit_cgps/logs/success_log.txt"
+  obs_id="VLASS1.1.T01t01.J000228-363000"
+  file_is_not_zero ${failure_log}
+  file_is_not_zero ${success_log}
+}
+
 cleanup_files() {
 #  echo "Cleaning up ${1}"
   for f in ${1}
@@ -284,6 +294,7 @@ copy_pip_install() {
 copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
 copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
 copy_pip_install ${VLASS_ROOT} vlass2caom2 vlass2caom2
+copy_pip_install ${CGPS_ROOT} cgps2caom2 cgps2caom2
 
 mkdir -p vlass2caom2/data || exit $?
 cp ${VLASS_ROOT}/data/ArchiveQuery-2018-08-15.csv vlass2caom2/data || exit $?
@@ -302,12 +313,13 @@ mkdir -p ${OMM_ROOT}/omm2caom2 || exit $?
 cp ${OMM_ROOT}/omm2caom2/*.py omm2caom2/omm2caom2 || exit $?
 
 # build the containers
+docker build -f ./Dockerfile.cgps -t cgps_run_int ./ || exit $?
 docker build -f ./Dockerfile.omm -t omm_run_int ./ || exit $?
 docker build -f ./Dockerfile.vlass -t vlass_run_int ./ || exit $?
 
 # run the container permutations that I care about
 
-for ii in visit
+for ii in visit_cgps
 do
   echo "Run ${ii} test case ..."
   run_dir=${RUN_ROOT}/${ii}
@@ -316,11 +328,11 @@ do
   cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.jpg"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir}
-  output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run 2>&1)"
+  output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} cgps_run_int cgps_run 2>&1)"
   result=$?
   if [[ ${result} -ne 0 ]]
   then
-    echo "vlass_run failed for ${ii}"
+    echo "cgps_run failed for ${ii}"
     echo "${output}"
     exit -1
   fi
@@ -344,6 +356,26 @@ do
   if [[ ${result} -ne 0 ]]
   then
     echo "vlass_run_single failed for ${ii}"
+    exit -1
+  fi
+  check_client_${ii}
+done
+
+for ii in visit
+do
+  echo "Run ${ii} test case ..."
+  run_dir=${RUN_ROOT}/${ii}
+
+  cleanup_files "${run_dir}/logs/*.txt"
+  cleanup_files "${run_dir}/logs/*.log"
+  cleanup_files "${run_dir}/*.jpg"
+  cp $HOME/.ssl/cadcproxy.pem ${run_dir}
+  output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} vlass_run_int vlass_run 2>&1)"
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "vlass_run failed for ${ii}"
+    echo "${output}"
     exit -1
   fi
   check_client_${ii}
@@ -419,5 +451,6 @@ do
 
 done
 
+echo -n 'Success at: '
 date
 exit 0

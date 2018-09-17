@@ -169,7 +169,7 @@
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>image/jpeg</caom2:contentType>
           <caom2:contentLength>184510</caom2:contentLength>
-          <caom2:contentChecksum>2936acef5f5f31d52077d0c4f19568fb</caom2:contentChecksum>
+          <caom2:contentChecksum>md5:2936acef5f5f31d52077d0c4f19568fb</caom2:contentChecksum>
           <caom2:parts/>
         </caom2:artifact>
         <caom2:artifact caom2:id="00000000-0000-0000-a617-163a0a6d56c3" caom2:lastModified="2018-07-26T10:44:34.446" caom2:maxLastModified="2018-07-26T10:44:34.446" caom2:metaChecksum="md5:992e551fb2d8f711048d00657b110244" caom2:accMetaChecksum="md5:e01ac29557b726fdf90b256d63e76b6c">
@@ -178,7 +178,7 @@
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>image/jpeg</caom2:contentType>
           <caom2:contentLength>2250</caom2:contentLength>
-          <caom2:contentChecksum>a8adda73f9fa19f4bad19614736fccaf</caom2:contentChecksum>
+          <caom2:contentChecksum>md5:a8adda73f9fa19f4bad19614736fccaf</caom2:contentChecksum>
           <caom2:parts/>
         </caom2:artifact>
       </caom2:artifacts>

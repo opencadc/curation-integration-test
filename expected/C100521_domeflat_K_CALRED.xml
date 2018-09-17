@@ -7,6 +7,9 @@
   </caom2:algorithm>
   <caom2:type>flat</caom2:type>
   <caom2:intent>calibration</caom2:intent>
+  <caom2:instrument>
+    <caom2:name>CPAPIR</caom2:name>
+  </caom2:instrument>
   <caom2:planes>
     <caom2:plane caom2:id="00000000-0000-0000-bae0-994287f0a548" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:e123eac3eb4b7f7f01c12ee83cd94352" caom2:accMetaChecksum="md5:22e1b84924a9272915c2242857359de8">
       <caom2:productID>C100521_domeflat_K_CALRED</caom2:productID>
@@ -45,7 +48,7 @@
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>image/jpeg</caom2:contentType>
           <caom2:contentLength>612394</caom2:contentLength>
-          <caom2:contentChecksum>2b728b80c9c6fcb88896ded29972aa8c</caom2:contentChecksum>
+          <caom2:contentChecksum>md5:2b728b80c9c6fcb88896ded29972aa8c</caom2:contentChecksum>
           <caom2:parts/>
         </caom2:artifact>
         <caom2:artifact caom2:id="00000000-0000-0000-ad5b-113ed0f608d6" caom2:lastModified="2018-07-28T01:00:58.610" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:df59e9002dc92b4c988904908fc6893d" caom2:accMetaChecksum="md5:82f073180d2afa74930e6933ac16c61e">
@@ -54,7 +57,7 @@
           <caom2:releaseType>data</caom2:releaseType>
           <caom2:contentType>image/jpeg</caom2:contentType>
           <caom2:contentLength>3473</caom2:contentLength>
-          <caom2:contentChecksum>1ec01f86ca638c74d3a5eefbfffa0b1e</caom2:contentChecksum>
+          <caom2:contentChecksum>md5:1ec01f86ca638c74d3a5eefbfffa0b1e</caom2:contentChecksum>
           <caom2:parts/>
         </caom2:artifact>
       </caom2:artifacts>
