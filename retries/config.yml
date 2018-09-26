@@ -1,0 +1,19 @@
+working_directory: /usr/src/app
+proxy_filename: /usr/src/app/cadcproxy.pem
+resource_id: ivo://cadc.nrc.ca/sc2repo
+todo_file_name: todo.txt
+logging_level: INFO
+log_to_file: True
+log_file_directory: /usr/src/app/logs
+failure_log_file_name: failure_log.txt
+retry_file_name: retries.txt
+retry_failures: True
+retry_count: 1
+stream: raw
+use_local_files: True
+task_types:
+  - ingest
+features:
+  use_file_names: False
+  run_in_airflow: False
+  expects_retry: True
