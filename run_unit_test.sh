@@ -3,7 +3,7 @@
 # osx
 ROOT_DIR="${HOME}/work/cadc/dev"
 
-for ii in caom2tools cgps2caom2 omm2caom2 vlass2caom2 drao26m2caom2 draosfm2caom2 draost2caom2
+for ii in caom2tools cgps2caom2 omm2caom2 vlass2caom2 drao26m2caom2 draosfm2caom2 draost2caom2 draogmims2caom2
 do
   sudo rsync -ai --delete ${ROOT_DIR}/${ii}/ ./${ii}_unit \
     --exclude=".git"  \
