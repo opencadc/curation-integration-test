@@ -19,13 +19,13 @@ check_client_retries() {
   file_is_not_zero ${rsuccess_log}
   file1_log="${_run_dir}/logs/C120402_domeflat_J_CALRED.log"
   file2_log="${_run_dir}/logs/C180108_0002_SCI.log"
-  file1_retry_log="${_run_dir}/logs_0/C120402_domeflat_J_CALRED.log"
+  file1_retry_log="${_run_dir}/logs_0/Cabc_SCI.log"
   file2_retry_log="${_run_dir}/logs_0/C180108_0002_SCI.log"
   file_is_zero ${file1_log}
   file_is_zero ${file2_log}
   file_exists ${file2_retry_log}
   file_is_zero ${file1_retry_log}
-  # make sure there are more retries than expected
+  # make sure there are not more retries than expected
   unexpected_retry_log_dir1="${_run_dir}/logs_1"
   unexpected_retry_log_dir2="${_run_dir}/logs_0_0"
   file_exists ${unexpected_retry_log_dir1}

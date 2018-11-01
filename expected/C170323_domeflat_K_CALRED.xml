@@ -50,63 +50,32 @@
         <caom2:producer>LAE</caom2:producer>
         <caom2:runID>170323</caom2:runID>
         <caom2:reference>http://genesis.astro.umontreal.ca</caom2:reference>
+        <caom2:inputs>
+          <caom2:planeURI>caom:OMM/C170323_0157_CAL/C170323_0157_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0165_CAL/C170323_0165_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0167_CAL/C170323_0167_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0153_CAL/C170323_0153_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0156_CAL/C170323_0156_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0169_CAL/C170323_0169_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0171_CAL/C170323_0171_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0159_CAL/C170323_0159_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0164_CAL/C170323_0164_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0158_CAL/C170323_0158_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0166_CAL/C170323_0166_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0170_CAL/C170323_0170_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0163_CAL/C170323_0163_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0155_CAL/C170323_0155_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0172_CAL/C170323_0172_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0161_CAL/C170323_0161_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0168_CAL/C170323_0168_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0151_CAL/C170323_0151_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0162_CAL/C170323_0162_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0154_CAL/C170323_0154_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0152_CAL/C170323_0152_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C170323_0160_CAL/C170323_0160_CAL</caom2:planeURI>
+        </caom2:inputs>
       </caom2:provenance>
-      <caom2:position>
-        <caom2:bounds xsi:type="caom2:Polygon">
-          <caom2:points>
-            <caom2:point>
-              <caom2:cval1>359.7467229999999</caom2:cval1>
-              <caom2:cval2>0.25327500000000214</caom2:cval2>
-            </caom2:point>
-            <caom2:point>
-              <caom2:cval1>0.25278300000002185</caom2:cval1>
-              <caom2:cval2>0.25327500000000214</caom2:cval2>
-            </caom2:point>
-            <caom2:point>
-              <caom2:cval1>0.2527830000000219</caom2:cval1>
-              <caom2:cval2>-0.25278000000000134</caom2:cval2>
-            </caom2:point>
-            <caom2:point>
-              <caom2:cval1>359.7467229999999</caom2:cval1>
-              <caom2:cval2>-0.25278000000000134</caom2:cval2>
-            </caom2:point>
-          </caom2:points>
-          <caom2:samples>
-            <caom2:vertices>
-              <caom2:vertex>
-                <caom2:cval1>0.252783</caom2:cval1>
-                <caom2:cval2>-0.25278</caom2:cval2>
-                <caom2:type>2</caom2:type>
-              </caom2:vertex>
-              <caom2:vertex>
-                <caom2:cval1>359.746723</caom2:cval1>
-                <caom2:cval2>-0.25278</caom2:cval2>
-                <caom2:type>1</caom2:type>
-              </caom2:vertex>
-              <caom2:vertex>
-                <caom2:cval1>359.746723</caom2:cval1>
-                <caom2:cval2>0.253275</caom2:cval2>
-                <caom2:type>1</caom2:type>
-              </caom2:vertex>
-              <caom2:vertex>
-                <caom2:cval1>0.252783</caom2:cval1>
-                <caom2:cval2>0.253275</caom2:cval2>
-                <caom2:type>1</caom2:type>
-              </caom2:vertex>
-              <caom2:vertex>
-                <caom2:cval1>0.0</caom2:cval1>
-                <caom2:cval2>0.0</caom2:cval2>
-                <caom2:type>0</caom2:type>
-              </caom2:vertex>
-            </caom2:vertices>
-          </caom2:samples>
-        </caom2:bounds>
-        <caom2:dimension>
-          <caom2:naxis1>2048</caom2:naxis1>
-          <caom2:naxis2>2048</caom2:naxis2>
-        </caom2:dimension>
-        <caom2:sampleSize>0.8899992</caom2:sampleSize>
-      </caom2:position>
+      <caom2:position/>
       <caom2:energy>
         <caom2:bounds>
           <caom2:lower>2e-06</caom2:lower>
@@ -156,66 +125,8 @@
                 <caom2:chunk caom2:id="00000000-0000-0000-8e8e-48e15fd9138a" caom2:lastModified="2018-08-31T00:45:39.994" caom2:maxLastModified="2018-08-31T00:45:39.994" caom2:metaChecksum="md5:f08b7f28845268dbeb23716bdb77f52f" caom2:accMetaChecksum="md5:e74a09e4b0827c681e4c5de602e7d6b6">
                   <caom2:productType>calibration</caom2:productType>
                   <caom2:naxis>4</caom2:naxis>
-                  <caom2:positionAxis1>1</caom2:positionAxis1>
-                  <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
                   <caom2:timeAxis>4</caom2:timeAxis>
-                  <caom2:position>
-                    <caom2:axis>
-                      <caom2:axis1>
-                        <caom2:ctype>RA---TAN</caom2:ctype>
-                        <caom2:cunit>deg</caom2:cunit>
-                      </caom2:axis1>
-                      <caom2:axis2>
-                        <caom2:ctype>DEC--TAN</caom2:ctype>
-                        <caom2:cunit>deg</caom2:cunit>
-                      </caom2:axis2>
-                      <caom2:bounds>
-                        <caom2:polygon>
-                          <caom2:vertices>
-                            <caom2:vertex>
-                              <caom2:coord1>0.252783</caom2:coord1>
-                              <caom2:coord2>-0.25278</caom2:coord2>
-                            </caom2:vertex>
-                            <caom2:vertex>
-                              <caom2:coord1>359.746723</caom2:coord1>
-                              <caom2:coord2>-0.25278</caom2:coord2>
-                            </caom2:vertex>
-                            <caom2:vertex>
-                              <caom2:coord1>359.746723</caom2:coord1>
-                              <caom2:coord2>0.253275</caom2:coord2>
-                            </caom2:vertex>
-                            <caom2:vertex>
-                              <caom2:coord1>0.252783</caom2:coord1>
-                              <caom2:coord2>0.253275</caom2:coord2>
-                            </caom2:vertex>
-                          </caom2:vertices>
-                        </caom2:polygon>
-                      </caom2:bounds>
-                      <caom2:function>
-                        <caom2:dimension>
-                          <caom2:naxis1>2048</caom2:naxis1>
-                          <caom2:naxis2>2048</caom2:naxis2>
-                        </caom2:dimension>
-                        <caom2:refCoord>
-                          <caom2:coord1>
-                            <caom2:pix>1023.5</caom2:pix>
-                            <caom2:val>0.0</caom2:val>
-                          </caom2:coord1>
-                          <caom2:coord2>
-                            <caom2:pix>1023.5</caom2:pix>
-                            <caom2:val>0.0</caom2:val>
-                          </caom2:coord2>
-                        </caom2:refCoord>
-                        <caom2:cd11>-0.000247222</caom2:cd11>
-                        <caom2:cd12>0.0</caom2:cd12>
-                        <caom2:cd21>0.0</caom2:cd21>
-                        <caom2:cd22>0.000247222</caom2:cd22>
-                      </caom2:function>
-                    </caom2:axis>
-                    <caom2:coordsys>ICRS</caom2:coordsys>
-                    <caom2:equinox>2000.0</caom2:equinox>
-                  </caom2:position>
                   <caom2:energy>
                     <caom2:axis>
                       <caom2:axis>
@@ -294,4 +205,28 @@
       </caom2:artifacts>
     </caom2:plane>
   </caom2:planes>
+  <caom2:members>
+    <caom2:observationURI>caom:OMM/C170323_0165_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0159_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0169_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0154_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0168_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0155_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0163_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0156_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0171_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0157_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0172_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0160_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0151_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0161_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0167_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0153_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0162_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0164_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0166_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0170_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0158_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C170323_0152_CAL</caom2:observationURI>
+  </caom2:members>
 </caom2:Observation>

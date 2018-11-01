@@ -34,6 +34,5 @@ task_types:
   - ingest
   - modify
 features:
-  supports_composite: False
   run_in_airflow: False
   use_file_names: False

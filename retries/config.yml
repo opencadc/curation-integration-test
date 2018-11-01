@@ -12,7 +12,9 @@ retry_count: 1
 stream: raw
 use_local_files: True
 task_types:
+  - store
   - ingest
+  - modify
 features:
   use_file_names: False
   run_in_airflow: False

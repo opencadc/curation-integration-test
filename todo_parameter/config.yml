@@ -44,6 +44,4 @@ stream: raw
 task_types: 
   - ingest
 features:
-  supports_composite: False
-  use_clients: False
   use_file_names: False

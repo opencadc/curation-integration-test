@@ -1,4 +1,5 @@
-<caom2:Observation xmlns:caom2="http://www.opencadc.org/caom2/xml/v2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="caom2:CompositeObservation" caom2:id="00000000-0000-0000-9689-626991d85367" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:dd442083f9d628fa40df7f5c83cd62ab" caom2:accMetaChecksum="md5:aa481f3929a63f3be052939ccb7b9dbc">
+<?xml version='1.0' encoding='UTF-8'?>
+<caom2:Observation xmlns:caom2="http://www.opencadc.org/caom2/xml/v2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="caom2:CompositeObservation" caom2:id="00000000-0000-0000-9fd3-1cc91af83a55" caom2:lastModified="2018-09-26T23:09:32.132" caom2:maxLastModified="2018-09-26T23:09:32.132" caom2:metaChecksum="md5:2ee945c15ad1fc836ad6c5028034ac8c" caom2:accMetaChecksum="md5:45c3efcef4e2d694f926fa465f43aaec">
   <caom2:collection>OMM</caom2:collection>
   <caom2:observationID>C100521_domeflat_K_CALRED</caom2:observationID>
   <caom2:metaRelease>2010-05-22T00:00:00.000</caom2:metaRelease>
@@ -11,18 +12,45 @@
     <caom2:name>CPAPIR</caom2:name>
   </caom2:instrument>
   <caom2:planes>
-    <caom2:plane caom2:id="00000000-0000-0000-bae0-994287f0a548" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:e123eac3eb4b7f7f01c12ee83cd94352" caom2:accMetaChecksum="md5:22e1b84924a9272915c2242857359de8">
+    <caom2:plane caom2:id="00000000-0000-0000-8068-4abe9067201b" caom2:lastModified="2018-09-26T23:09:32.132" caom2:maxLastModified="2018-09-26T23:09:32.132" caom2:metaChecksum="md5:7185adc9cbcf2ec5513ad454ecf9099c" caom2:accMetaChecksum="md5:1ce91c4079c855650f2488f2895606a1">
       <caom2:productID>C100521_domeflat_K_CALRED</caom2:productID>
       <caom2:metaRelease>2010-05-22T00:00:00.000</caom2:metaRelease>
       <caom2:dataRelease>2010-05-22T00:00:00.000</caom2:dataRelease>
       <caom2:dataProductType>image</caom2:dataProductType>
       <caom2:calibrationLevel>1</caom2:calibrationLevel>
+      <caom2:provenance>
+        <caom2:name>CPAPIR</caom2:name>
+        <caom2:inputs>
+          <caom2:planeURI>caom:OMM/C100521_0293_CAL/C100521_0293_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0237_CAL/C100521_0237_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0295_CAL/C100521_0295_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0239_CAL/C100521_0239_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0242_CAL/C100521_0242_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0245_CAL/C100521_0245_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0235_CAL/C100521_0235_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0296_CAL/C100521_0296_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0236_CAL/C100521_0236_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0292_CAL/C100521_0292_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0241_CAL/C100521_0241_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0299_CAL/C100521_0299_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0294_CAL/C100521_0294_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0240_CAL/C100521_0240_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0238_CAL/C100521_0238_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0300_CAL/C100521_0300_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0290_CAL/C100521_0290_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0244_CAL/C100521_0244_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0297_CAL/C100521_0297_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0291_CAL/C100521_0291_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0243_CAL/C100521_0243_CAL</caom2:planeURI>
+          <caom2:planeURI>caom:OMM/C100521_0298_CAL/C100521_0298_CAL</caom2:planeURI>
+        </caom2:inputs>
+      </caom2:provenance>
       <caom2:position/>
       <caom2:energy/>
       <caom2:time/>
       <caom2:polarization/>
       <caom2:artifacts>
-        <caom2:artifact caom2:id="00000000-0000-0000-99a0-c191c3988178" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:40.590" caom2:metaChecksum="md5:70b0de6085ff179e9fa394cfc1f9b329" caom2:accMetaChecksum="md5:1923981ae4fc10ca2d1a78e590db7309">
+        <caom2:artifact caom2:id="00000000-0000-0000-9f17-9eeefadfe0cd" caom2:lastModified="2018-09-26T23:09:32.132" caom2:maxLastModified="2018-09-26T23:09:32.132" caom2:metaChecksum="md5:fc3119f80277f4b20b23ca3d1988ac5a" caom2:accMetaChecksum="md5:41f9966d40c8ee382abfbd9f29f797f6">
           <caom2:uri>ad:OMM/C100521_domeflat_K_CALRED.fits.gz</caom2:uri>
           <caom2:productType>calibration</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
@@ -30,11 +58,11 @@
           <caom2:contentLength>12768884</caom2:contentLength>
           <caom2:contentChecksum>md5:3bd194e7411cf80b15f36ad10be96fc7</caom2:contentChecksum>
           <caom2:parts>
-            <caom2:part caom2:id="00000000-0000-0000-8b62-deb7c3272829" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:40.590" caom2:metaChecksum="md5:4c2591754f98b1bc590875faee623e6d" caom2:accMetaChecksum="md5:ecb9a8ab02ed77096bc63fb7955c0280">
+            <caom2:part caom2:id="00000000-0000-0000-b7ab-05a4aafcf442" caom2:lastModified="2018-09-26T23:09:32.132" caom2:maxLastModified="2018-09-26T23:09:32.132" caom2:metaChecksum="md5:3539d40a2c3705aecb5a94f235929ef2" caom2:accMetaChecksum="md5:e3b4e1fc6b5324940e4667ac2cf3ef4f">
               <caom2:name>0</caom2:name>
               <caom2:productType>calibration</caom2:productType>
               <caom2:chunks>
-                <caom2:chunk caom2:id="00000000-0000-0000-ac24-3aae269d29e2" caom2:lastModified="2018-07-28T01:00:40.590" caom2:maxLastModified="2018-07-28T01:00:40.590" caom2:metaChecksum="md5:a45cad396179d16271d79e9431c4e170" caom2:accMetaChecksum="md5:0767a7ce8fc6860666f527cd42c5a82a">
+                <caom2:chunk caom2:id="00000000-0000-0000-b40e-1bdf3a0ca8a4" caom2:lastModified="2018-09-26T23:09:32.132" caom2:maxLastModified="2018-09-26T23:09:32.132" caom2:metaChecksum="md5:e27e0300aa8ce7dc9f243186fce32851" caom2:accMetaChecksum="md5:adb9dd8ad7f3661ef8307beca4bdcd89">
                   <caom2:productType>calibration</caom2:productType>
                   <caom2:naxis>4</caom2:naxis>
                 </caom2:chunk>
@@ -42,7 +70,7 @@
             </caom2:part>
           </caom2:parts>
         </caom2:artifact>
-        <caom2:artifact caom2:id="00000000-0000-0000-8554-f62409401294" caom2:lastModified="2018-07-28T01:00:58.610" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:c10c95f8b87fe336c0e3b73e69b3b898" caom2:accMetaChecksum="md5:4a74d93d072a7850943643bf8153cc81">
+        <caom2:artifact caom2:id="00000000-0000-0000-b9a9-e7039cf76ca2" caom2:lastModified="2018-11-01T00:25:14.843" caom2:maxLastModified="2018-11-01T00:25:14.843" caom2:metaChecksum="md5:ba4facd2da001c29ec77155084cffed0" caom2:accMetaChecksum="md5:dd02c97c5892a1b7ed0f688cd40cac17">
           <caom2:uri>ad:OMM/C100521_domeflat_K_CALRED_prev.jpg</caom2:uri>
           <caom2:productType>preview</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
@@ -51,7 +79,7 @@
           <caom2:contentChecksum>md5:2b728b80c9c6fcb88896ded29972aa8c</caom2:contentChecksum>
           <caom2:parts/>
         </caom2:artifact>
-        <caom2:artifact caom2:id="00000000-0000-0000-ad5b-113ed0f608d6" caom2:lastModified="2018-07-28T01:00:58.610" caom2:maxLastModified="2018-07-28T01:00:58.610" caom2:metaChecksum="md5:df59e9002dc92b4c988904908fc6893d" caom2:accMetaChecksum="md5:82f073180d2afa74930e6933ac16c61e">
+        <caom2:artifact caom2:id="00000000-0000-0000-8526-9902f5ad14a4" caom2:lastModified="2018-11-01T00:25:14.843" caom2:maxLastModified="2018-11-01T00:25:14.843" caom2:metaChecksum="md5:ff2ada46484283d49919758a997fbf91" caom2:accMetaChecksum="md5:26b012a71f34ca39ff2eb80ca82f43cc">
           <caom2:uri>ad:OMM/C100521_domeflat_K_CALRED_prev_256.jpg</caom2:uri>
           <caom2:productType>thumbnail</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
@@ -63,4 +91,28 @@
       </caom2:artifacts>
     </caom2:plane>
   </caom2:planes>
+  <caom2:members>
+    <caom2:observationURI>caom:OMM/C100521_0300_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0296_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0239_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0245_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0238_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0236_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0243_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0240_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0291_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0298_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0292_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0235_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0244_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0242_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0297_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0241_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0299_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0290_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0295_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0294_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0237_CAL</caom2:observationURI>
+    <caom2:observationURI>caom:OMM/C100521_0293_CAL</caom2:observationURI>
+  </caom2:members>
 </caom2:Observation>

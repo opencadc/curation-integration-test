@@ -122,11 +122,10 @@ do
   check_${ii}
 done
 
-# test those permutations that don't support the command-line parameter
-for ii in failures scrape scrape_modify store_ingest_modify ingest_modify_local ingest_modify
-do
-  echo "Run ${ii} test case ..."
-  run_dir=${RUN_ROOT}/${ii}
+omm_run_int_test_case()
+{
+  echo "Run ${1} test case ..."
+  run_dir=${RUN_ROOT}/${1}
   cleanup_files "${run_dir}/logs/*.txt"
   cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.xml"
@@ -149,8 +148,14 @@ do
       exit -1
     fi
   fi
+  echo "${output}"
   check_${ii} "${output}"
+}
 
+# test those permutations that don't support the command-line parameter
+for ii in failures scrape scrape_modify store_ingest_modify ingest_modify_local ingest_modify
+do
+  omm_run_int_test_case "${ii}"
 done
 
 . ./test_retries.sh

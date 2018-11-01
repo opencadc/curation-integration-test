@@ -33,6 +33,4 @@ stream: raw
 task_types: 
   - visit
 features:
-  use_clients: True
   use_file_names: False
-  supports_composite: False
