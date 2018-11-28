@@ -1,4 +1,6 @@
-FROM python:3.6
+FROM python:3.6-alpine
+
+RUN apk --no-cache add musl-dev gcc make g++ libxml2-dev libxslt-dev bash
 
 RUN pip install astropy && pip install numpy && \
         pip install spherical-geometry
@@ -12,8 +14,8 @@ RUN pip install pytest && pip install mock && pip install flake8 && \
 
 WORKDIR /usr/src/app
 COPY ./caom2tools_unit ./caom2tools
-RUN cd caom2tools && pip install ./caom2pipe && \
-	pip install ./caom2 && pip install ./caom2utils && cd ..
+RUN cd caom2tools && && pip install ./caom2 && pip install ./caom2pipe && \
+        pip install ./caom2utils && cd ..
   
 COPY ./gem2caom2_unit/proxy.pem /usr/src/app/cadcproxy.pem
 COPY ./gem2caom2_unit ./gem2caom2

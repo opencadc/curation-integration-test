@@ -6,7 +6,9 @@ RUN_ROOT=${ROOT_DIR}/tests/int_test
 TOOLS_ROOT=${DEV_DIR}/caom2tools
 CGPS_ROOT=${DEV_DIR}/cgps2caom2
 OMM_ROOT=${DEV_DIR}/omm2caom2
+GEM_ROOT=${DEV_DIR}/gem2caom2
 VLASS_ROOT=${DEV_DIR}/vlass2caom2
+GMIMS_ROOT=${DEV_DIR}/draogmims2caom2
 CONT_ROOT="/usr/src/app"
 
 # stop if a file has any content
@@ -288,4 +290,28 @@ copy_pip_install() {
   fi
   mkdir -p ${2}/${3} || exit $?
   cp ${1}/${3}/*.py ${2}/${3} || exit $?
+}
+
+
+docker_cleanup() {
+  echo "docker clean up, before running out of space"
+  echo "remove stopped images"
+  output=$(docker ps -a -f status=exited -q)
+  if [[ ! -z "${output}" ]]
+  then
+    for ii in ${output}
+    do
+      docker rm ${ii} || exit $?
+    done
+  fi
+
+  echo "delete unused images"
+  output=$(docker images -qf "dangling=true")
+  if [[ ! -z "${output}" ]]
+  then
+    for ii in ${output}
+    do
+      docker rmi ${ii} || exit $?
+    done
+  fi
 }

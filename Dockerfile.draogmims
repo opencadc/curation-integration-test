@@ -1,5 +1,5 @@
 FROM python:3.6-alpine
- 
+
 RUN apk --no-cache add musl-dev gcc make g++ libxml2-dev libxslt-dev bash
 
 RUN pip install astropy && pip install numpy && \
@@ -9,11 +9,11 @@ RUN pip install cadcdata && pip install caom2repo && \
 
 WORKDIR /usr/src/app
 COPY ./caom2tools ./caom2tools
-RUN cd caom2tools && && pip install caom2 && pip install ./caom2pipe && \
+RUN cd caom2tools && && pip install ./caom2 && pip install ./caom2pipe && \
 	pip install ./caom2utils && cd ..
   
-COPY ./drao26m2caom2 ./drao26m2caom2/
-RUN pip install ./drao26m2caom2/ 
+COPY ./draogmims2caom2 ./draogmims2caom2/
+RUN pip install ./draogmims2caom2/ 
 
 COPY ./docker-entrypoint.sh ./
 

@@ -78,4 +78,3 @@ run_test_retries
 # check_client_retries ${RUN_ROOT}/retries
 echo -n "$(basename $0) Success at: "
 date
-exit 0
