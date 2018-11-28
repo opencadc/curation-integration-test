@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ${T}/common_int_test.sh || exit ?
+
 ROOT_DIR="${HOME}/work/cadc/dev"
 COLLECTIONS=( gem cgps omm vlass drao26m draost draosfm draogmims askap )
 
@@ -19,27 +21,7 @@ done
 copy_set=( caom2tools ${temp[@]} ) 
 build_set=( caom2utils caom2pipe ${test_set[@]} ) 
 
-# clean up, before I run out of space
-# remove stopped images
-output=$(docker ps -a -f status=exited -q)
-if [[ ! -z "${output}" ]]
-then
-  for ii in ${output}
-  do
-    docker rm ${ii} || exit $?
-  done
-fi
-
-# delete unused images
-output=$(docker images -qf "dangling=true")
-if [[ ! -z "${output}" ]]
-then
-  for ii in ${output}
-  do
-    docker rmi ${ii} || exit $?
-  done
-fi
-
+docker_cleanup
 
 for ii in "${copy_set[@]}"
 do

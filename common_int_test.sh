@@ -305,6 +305,15 @@ docker_cleanup() {
     done
   fi
 
+  output=$(docker ps -a -f status=created -q)
+  if [[ ! -z "${output}" ]]
+  then
+    for ii in ${output}
+    do
+      docker rm ${ii} || exit $?
+    done
+  fi
+
   echo "delete unused images"
   output=$(docker images -qf "dangling=true")
   if [[ ! -z "${output}" ]]
