@@ -13,6 +13,11 @@ setup()
 
   echo "Build the containers ..."
   docker_build=$(docker build -f ./Dockerfile.omm -t omm_run_int ./ 2>&1 || exit $?)
+
+  echo "Get the latest version of the files under test where it matters ..."
+  cd ${RUN_ROOT}/store_ingest_modify || exit $?
+  cadc-data get --cert $HOME/.ssl/cadcproxy.pem OMM C180616_0135_SCI.fits.gz || exit $?
+  cd ${RUN_ROOT} || exit $?
 }
 
 omm_run_single_test() {

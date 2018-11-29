@@ -39,13 +39,8 @@ do
 done
 
 . ./test_vlass.sh
-run_vlass_tests
-
 . ./test_retries.sh
-run_test_retries
-
 . ./test_omm.sh
-run_omm_tests
 
 echo -n 'Success at: '
 date

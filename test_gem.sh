@@ -68,4 +68,3 @@ run_test_gem
 #check_client_gem ${RUN_ROOT}/retries
 echo -n "$(basename $0) Success at: "
 date
-exit 0
