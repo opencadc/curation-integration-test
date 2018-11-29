@@ -12,6 +12,8 @@ WORKDIR /usr/src/app
 COPY ./caom2tools ./caom2tools
 RUN cd caom2tools && && pip install ./caom2 && pip install ./caom2pipe && \
         pip install ./caom2utils && cd ..
+
+RUN apk --no-cache add imagemagick
   
 COPY ./gem2caom2/proxy.pem /usr/src/app/cadcproxy.pem
 COPY ./gem2caom2 ./gem2caom2

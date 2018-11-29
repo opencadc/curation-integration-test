@@ -13,7 +13,7 @@ RUN pip install pytest && pip install mock && pip install flake8 && \
 
 WORKDIR /usr/src/app
 COPY ./caom2tools_unit ./caom2tools
-RUN cd caom2tools && && pip install ./caom2 && pip install ./caom2pipe && \
+RUN cd caom2tools && pip install ./caom2 && pip install ./caom2pipe && \
         pip install ./caom2utils && cd ..
 
 COPY ./cgps2caom2_unit ./cgps2caom2/

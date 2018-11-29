@@ -290,6 +290,11 @@ copy_pip_install() {
   fi
   mkdir -p ${2}/${3} || exit $?
   cp ${1}/${3}/*.py ${2}/${3} || exit $?
+  if [[ -e ${1}/${3}/data ]]
+  then
+    mkdir -p ${2}/${3}/data || exit $?
+    cp ${1}/${3}/data/* ${2}/${3}/data || exit $?
+  fi
 }
 
 
