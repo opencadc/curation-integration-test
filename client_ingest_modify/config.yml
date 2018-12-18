@@ -13,6 +13,8 @@ log_to_file: False
 # fully qualified name for a directory to write log files
 log_file_directory: /usr/src/app/logs
 # ad stream value - sorry
+archive: OMM
+collection: OMM
 stream: raw
 # how to control the work that gets done
 # possible values are:
