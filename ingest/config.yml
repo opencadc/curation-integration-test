@@ -1,6 +1,0 @@
-proxy_filename: /usr/src/app/cadcproxy.pem
-collection: VLASS
-archive: VLASS
-features:
-  run_in_airflow: False
-  use_file_names: True

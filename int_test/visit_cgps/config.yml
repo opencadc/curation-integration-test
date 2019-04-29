@@ -1,0 +1,21 @@
+working_directory: /usr/src/app
+# the netrc_filename value must be a fully-qualified name
+netrc_filename: /usr/src/app/test_netrc
+# operational value is ivo://cadc.nrc.ca/caom2repo
+resource_id: ivo://cadc.nrc.ca/sc2repo
+todo_file_name: todo.txt
+# values True False
+use_local_files: False
+# values DEBUG INFO WARN ERROR
+logging_level: INFO
+# values True False
+log_to_file: True
+# fully qualified name for a directory to write log files
+log_file_directory: /usr/src/app/logs
+# ad stream value - sorry
+stream: raw
+# how to control the work that gets done
+task_types: 
+  - visit
+features:
+  use_file_names: False

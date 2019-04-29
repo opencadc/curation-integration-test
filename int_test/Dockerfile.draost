@@ -1,0 +1,21 @@
+FROM python:3.6-alpine
+
+RUN apk --no-cache add musl-dev gcc make g++ libxml2-dev libxslt-dev bash
+
+RUN pip install astropy && pip install numpy && \
+        pip install spherical-geometry
+RUN pip install cadcdata && pip install caom2repo && \
+        pip install PyYAML && pip install vos
+
+WORKDIR /usr/src/app
+COPY ./caom2tools ./caom2tools
+RUN cd caom2tools && && pip install caom2 && pip install ./caom2pipe && \
+	pip install ./caom2utils && cd ..
+  
+COPY ./draost2caom2 ./draost2caom2/
+RUN pip install ./draost2caom2/ 
+
+COPY ./docker-entrypoint.sh ./
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
+
