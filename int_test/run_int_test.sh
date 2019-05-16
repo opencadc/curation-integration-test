@@ -1,20 +1,18 @@
 #!/bin/bash
 
 . ${T}/common_test.sh || exit $?
-COLLECTIONS=( vlass cgps omm gem )
+COLLECTIONS=( vlass cgps omm gem draost )
 
 docker_cleanup
+build_int_common
 
 # copy the latest version of caom2tools code that's required for a python
 # install - use the minimal amount of the repo contents
-copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
-copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
-copy_pip_install ${TOOLS_ROOT}/caom2 caom2tools/caom2 caom2
 copy_pip_install ${CGPS_ROOT} cgps2caom2 cgps2caom2
 copy_pip_install ${GMIMS_ROOT} draogmims2caom2 draogmims2caom2
 
 # build the containers
-docker build -f ./Dockerfile.cgps -t cgps_run_int ./ || exit $?
+docker build -f ${I}/Dockerfile.cgps -t cgps_run_int ./ || exit $?
 
 # run the container permutations that I care about
 
@@ -38,9 +36,10 @@ do
   check_client_${ii}
 done
 
-. ./test_vlass.sh
-. ./test_retries.sh
-. ./test_omm.sh
+. ${I}/test_vlass.sh
+. ${I}/test_omm.sh
+. ${I}/test_retries.sh
+# . ${I}/test_pull.sh
 
 echo -n 'Success at: '
 date

@@ -4,20 +4,22 @@
 
 setup()
 {
+  build_int_common
+
   # copy the latest version of caom2tools code that's required for a python
   # install - use the minimal amount of the repo contents
   echo "Copy the source code ..."
-  copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
-  copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
   copy_pip_install ${OMM_ROOT} omm2caom2 omm2caom2
 
-  echo "Build the containers ..."
+  echo "Build omm container ..."
   docker_build=$(docker build -f ./Dockerfile.omm -t omm_run_int ./ 2>&1 || exit $?)
 
   echo "Get the latest version of the files under test where it matters ..."
   cd ${RUN_ROOT}/store_ingest_modify || exit $?
   cadc-data get --cert $HOME/.ssl/cadcproxy.pem OMM C180616_0135_SCI.fits.gz || exit $?
   cd ${RUN_ROOT} || exit $?
+  echo "Copy cert for store_ingest_modify."
+  cp $HOME/.ssl/cadcproxy.pem ${RUN_ROOT}/store_ingest_modify || exit $?
 }
 
 omm_run_single_test() {
@@ -51,6 +53,7 @@ omm_run_int_test_case()
   cleanup_files "${run_dir}/*.xml"
   cleanup_files "${run_dir}/*.jpg"
 
+  echo "docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1"
   output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1)"
   result=$?
   if [[ ${result} -ne 0 ]]

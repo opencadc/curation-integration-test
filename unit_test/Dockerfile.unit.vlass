@@ -1,26 +1,13 @@
-FROM python:3.6-alpine
+FROM unit_common
+RUN pip install bs4
 
-RUN apk --no-cache add musl-dev gcc make g++ libxml2-dev libxslt-dev bash
+RUN pip install cadctap
 
-RUN pip install astropy && pip install numpy && \
-        pip install spherical-geometry
-RUN pip install cadcdata && pip install caom2repo && \
-	pip install PyYAML && pip install vos
-
-RUN pip install pytest && pip install mock && pip install flake8 && \
-        pip install funcsigs && pip install xml-compare && \
-        pip install pytest-cov && pip install aenum && pip install future
-
-WORKDIR /usr/src/app
-COPY ./caom2tools_unit ./caom2tools
-RUN cd caom2tools && pip install ./caom2 && pip install ./caom2pipe && \
-        pip install ./caom2utils && cd ..
-
-COPY ./vlass2caom2_unit ./vlass2caom2/
+COPY ./ ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 
 
-COPY ./vlass2caom2_unit/data/ArchiveQuery-2018-08-15.csv /usr/src/
-COPY ./vlass2caom2_unit/data/rejected_file_names-2018-09-05.csv /usr/src/
+COPY ./data/ArchiveQuery-2018-08-15.csv /usr/src/
+COPY ./data/rejected_file_names-2018-09-05.csv /usr/src/
 COPY ./docker-entrypoint.sh /usr/src/app/vlass2caom2
 
 ENTRYPOINT ["/usr/src/app/vlass2caom2/docker-entrypoint.sh"]

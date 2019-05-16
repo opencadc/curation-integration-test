@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_DIR="${HOME}/work/cadc"
+ROOT_DIR="/Volumes/Development"
 DEV_DIR="${ROOT_DIR}/dev"
 RUN_ROOT=${ROOT_DIR}/tests/int_test
 TOOLS_ROOT=${DEV_DIR}/caom2tools
@@ -9,7 +9,10 @@ OMM_ROOT=${DEV_DIR}/omm2caom2
 GEM_ROOT=${DEV_DIR}/gem2caom2
 VLASS_ROOT=${DEV_DIR}/vlass2caom2
 GMIMS_ROOT=${DEV_DIR}/draogmims2caom2
+DRAOST_ROOT=${DEV_DIR}/draost2caom2
 CONT_ROOT="/usr/src/app"
+UNIT_COMMON="unit_common"
+INT_COMMON="int_common"
 
 # stop if a file has any content
 file_is_zero() {
@@ -83,7 +86,7 @@ check_observation_in_db() {
     echo "${output}"
     exit -1
   fi
-  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} omm_run_int python compare_observations.py ${expected} ${actual} 2>&1)
+  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} int_common python compare_observations.py ${expected} ${actual} 2>&1)
   if [[ ${result} -ne 0 ]]
   then
     echo "compare_observations execution failed for ${obs_id}"
@@ -125,7 +128,7 @@ check_scrape() {
   echo "${1}"
   failure_log="${RUN_ROOT}/scrape/logs/failure_log.txt"
   success_log="${RUN_ROOT}/scrape/logs/success_log.txt"
-  xml="${RUN_ROOT}/scrape/C120902_sh2-132_J_old_SCIRED.fits.xml"
+  xml="${RUN_ROOT}/scrape/C170324_0054_SCI.fits.xml"
   file_is_not_zero ${failure_log}
   file_is_zero ${success_log}
   file_is_zero ${xml}
@@ -329,3 +332,21 @@ docker_cleanup() {
     done
   fi
 }
+
+build_int_common()
+{
+  echo "Copy common source"
+  copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
+  copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
+  copy_pip_install ${TOOLS_ROOT}/caom2 caom2tools/caom2 caom2
+  echo "Build common container"
+  output="$(docker build -f ${I}/Dockerfile.common -t ${INT_COMMON} ./ 2>&1)"
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "${output}"
+    exit -1
+  fi
+}
+
+

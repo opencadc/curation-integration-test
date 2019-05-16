@@ -43,16 +43,15 @@ run_test_gem() {
 
 setup()
 {
+  build_int_common
   # copy the latest version of caom2tools code that's required for a python
   # install - use the minimal amount of the repo contents
   echo "Copy the source code ..."
-  copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
-  copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
   copy_pip_install ${GEM_ROOT} gem2caom2 gem2caom2
   cp $HOME/.ssl/cadcproxy.pem ${RUN_ROOT}/gem2caom2/proxy.pem
   cp ${GEM_ROOT}/config.yml ${RUN_ROOT}/gem2caom2
   
-  echo "Build the containers ..."
+  echo "Build gem container ..."
   output=$(docker build -f ./Dockerfile.gem -t gem_run_int ./ 2>&1 || exit $?)
   result=$?
   if [[ ${result} -ne 0 ]]

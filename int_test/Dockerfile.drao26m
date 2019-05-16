@@ -1,17 +1,5 @@
-FROM python:3.6-alpine
+FROM int_common
  
-RUN apk --no-cache add musl-dev gcc make g++ libxml2-dev libxslt-dev bash
-
-RUN pip install astropy && pip install numpy && \
-        pip install spherical-geometry
-RUN pip install cadcdata && pip install caom2repo && \
-        pip install PyYAML && pip install vos
-
-WORKDIR /usr/src/app
-COPY ./caom2tools ./caom2tools
-RUN cd caom2tools && && pip install caom2 && pip install ./caom2pipe && \
-	pip install ./caom2utils && cd ..
-  
 COPY ./drao26m2caom2 ./drao26m2caom2/
 RUN pip install ./drao26m2caom2/ 
 
