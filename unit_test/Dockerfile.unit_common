@@ -27,12 +27,6 @@ RUN pip install aenum && \
 	pip install vos && \
 	pip install xml-compare 
 
-RUN pip install flake8 && \
-	pip install mock && \
-	pip install pytest && \
-	pip install pytest-cov && \
-	pip install pytest-runner
-
 WORKDIR /usr/src/app
 COPY ./ ./caom2tools
 RUN cd caom2tools && \
@@ -40,4 +34,10 @@ RUN cd caom2tools && \
         pip install ./caom2pipe && \
         pip install ./caom2utils && \
 	cd ..
+
+RUN pip install flake8 && \
+	pip install mock && \
+	pip install pytest && \
+	pip install pytest-cov && \
+	pip install pytest-runner
 

@@ -1,8 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<caom2:Observation xmlns:caom2="http://www.opencadc.org/caom2/xml/v2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="caom2:SimpleObservation" caom2:id="00000000-0000-0000-9878-0305fa4e0070">
+<caom2:Observation xmlns:caom2="http://www.opencadc.org/caom2/xml/v2.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="caom2:SimpleObservation" caom2:id="00000000-0000-0000-b436-aa753074e62c" caom2:lastModified="2019-06-06T18:48:00.498" caom2:maxLastModified="2019-07-04T19:43:36.648" caom2:metaChecksum="md5:bb2b9244e6542c0095eaee76c5106af0" caom2:accMetaChecksum="md5:bf922c70ab55937469517577ebd663f2">
   <caom2:collection>VLASS</caom2:collection>
   <caom2:observationID>VLASS1.1.T01t01.J000228-363000</caom2:observationID>
-  <caom2:metaRelease>2018-04-13T23:05:31.000</caom2:metaRelease>
+  <caom2:metaRelease>2018-02-07T22:38:34.000</caom2:metaRelease>
   <caom2:algorithm>
     <caom2:name>exposure</caom2:name>
   </caom2:algorithm>
@@ -27,7 +26,7 @@
     <caom2:name>S-WIDAR</caom2:name>
   </caom2:instrument>
   <caom2:planes>
-    <caom2:plane caom2:id="00000000-0000-0000-82ab-9ab91176b0f9">
+    <caom2:plane caom2:id="00000000-0000-0000-b0db-ad8e13de729a" caom2:lastModified="2019-07-04T19:43:36.648" caom2:maxLastModified="2019-07-04T19:43:36.648" caom2:metaChecksum="md5:7d47a4cc23c74f80d7779a40230748bc" caom2:accMetaChecksum="md5:f2da5a6bcd2dd57f8a4a3b4cb70589fd">
       <caom2:productID>VLASS1.1.T01t01.J000228-363000.quicklook.v1</caom2:productID>
       <caom2:metaRelease>2018-02-07T22:38:34.000</caom2:metaRelease>
       <caom2:dataRelease>2018-02-07T22:38:34.000</caom2:dataRelease>
@@ -41,47 +40,47 @@
         <caom2:runID>v1</caom2:runID>
         <caom2:reference>https://archive-new.nrao.edu/vlass/weblog/quicklook/VLASS1.1_T01t01.J000228-363000_P25905v1_2018_04_12T23_15_12.148/pipeline-20180412T231946/html/index.html</caom2:reference>
         <caom2:lastExecuted>2018-04-13T23:05:31.000</caom2:lastExecuted>
-       </caom2:provenance>
+      </caom2:provenance>
       <caom2:position>
         <caom2:bounds xsi:type="caom2:Polygon">
           <caom2:points>
             <caom2:point>
-              <caom2:cval1>1.256701109310358</caom2:cval1>
-              <caom2:cval2>-35.981196244776555</caom2:cval2>
+              <caom2:cval1>1.2565309999999847</caom2:cval1>
+              <caom2:cval2>-35.981336</caom2:cval2>
             </caom2:point>
             <caom2:point>
-              <caom2:cval1>1.2652861220089888</caom2:cval1>
-              <caom2:cval2>-37.01507612958861</caom2:cval2>
+              <caom2:cval1>1.2651110000000136</caom2:cval1>
+              <caom2:cval2>-37.01493799999999</caom2:cval2>
             </caom2:point>
             <caom2:point>
-              <caom2:cval1>359.9704326539075</caom2:cval1>
-              <caom2:cval2>-37.0150742624386</caom2:cval2>
+              <caom2:cval1>359.970608</caom2:cval1>
+              <caom2:cval2>-37.014936000000006</caom2:cval2>
             </caom2:point>
             <caom2:point>
-              <caom2:cval1>359.9790222805524</caom2:cval1>
-              <caom2:cval2>-35.981194402391</caom2:cval2>
+              <caom2:cval1>359.979193</caom2:cval1>
+              <caom2:cval2>-35.981333999999976</caom2:cval2>
             </caom2:point>
           </caom2:points>
           <caom2:samples>
             <caom2:vertices>
               <caom2:vertex>
-                <caom2:cval1>1.2652861220089888</caom2:cval1>
-                <caom2:cval2>-37.01507612958859</caom2:cval2>
+                <caom2:cval1>1.265111</caom2:cval1>
+                <caom2:cval2>-37.014938</caom2:cval2>
                 <caom2:type>2</caom2:type>
               </caom2:vertex>
               <caom2:vertex>
-                <caom2:cval1>359.97043265390755</caom2:cval1>
-                <caom2:cval2>-37.015074262438645</caom2:cval2>
+                <caom2:cval1>359.970608</caom2:cval1>
+                <caom2:cval2>-37.014936</caom2:cval2>
                 <caom2:type>1</caom2:type>
               </caom2:vertex>
               <caom2:vertex>
-                <caom2:cval1>359.97902228055244</caom2:cval1>
-                <caom2:cval2>-35.981194402390976</caom2:cval2>
+                <caom2:cval1>359.979193</caom2:cval1>
+                <caom2:cval2>-35.981334</caom2:cval2>
                 <caom2:type>1</caom2:type>
               </caom2:vertex>
               <caom2:vertex>
-                <caom2:cval1>1.2567011093103693</caom2:cval1>
-                <caom2:cval2>-35.98119624477659</caom2:cval2>
+                <caom2:cval1>1.256531</caom2:cval1>
+                <caom2:cval2>-35.981336</caom2:cval2>
                 <caom2:type>1</caom2:type>
               </caom2:vertex>
               <caom2:vertex>
@@ -137,7 +136,7 @@
         <caom2:dimension>1</caom2:dimension>
       </caom2:polarization>
       <caom2:artifacts>
-        <caom2:artifact caom2:id="00000000-0000-0000-b591-27680bff6a4b">
+        <caom2:artifact caom2:id="00000000-0000-0000-88d1-0d6b8a77125c" caom2:lastModified="2018-09-17T19:55:38.409" caom2:maxLastModified="2019-07-04T19:43:17.615" caom2:metaChecksum="md5:39a363d5547a72227a8a829e0851f012" caom2:accMetaChecksum="md5:1d953f9bb288a43c61870dd742af96d2">
           <caom2:uri>ad:VLASS/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits</caom2:uri>
           <caom2:productType>noise</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
@@ -145,14 +144,15 @@
           <caom2:contentLength>55425600</caom2:contentLength>
           <caom2:contentChecksum>md5:ae2a33238c5051611133e7090560fd8a</caom2:contentChecksum>
           <caom2:parts>
-            <caom2:part caom2:id="00000000-0000-0000-80c4-205841ed41fa">
+            <caom2:part caom2:id="00000000-0000-0000-84ad-c5660877f1f1" caom2:lastModified="2018-09-17T19:55:14.310" caom2:maxLastModified="2019-07-04T19:43:17.615" caom2:metaChecksum="md5:695ad7ce01d8c34ccca9598b6a422126" caom2:accMetaChecksum="md5:472d6e2e3d9e47bdb6a6028fb14639dd">
               <caom2:name>0</caom2:name>
               <caom2:chunks>
-                <caom2:chunk caom2:id="00000000-0000-0000-8e57-ec6e540165d0">
+                <caom2:chunk caom2:id="00000000-0000-0000-8dda-f968bea41347" caom2:lastModified="2019-07-04T19:43:17.615" caom2:maxLastModified="2019-07-04T19:43:17.615" caom2:metaChecksum="md5:1971cc802296d7d58535fd854c9fe974" caom2:accMetaChecksum="md5:2d7977b7ebc38a5710fa37d210c20574">
                   <caom2:naxis>4</caom2:naxis>
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
+                  <caom2:timeAxis>5</caom2:timeAxis>
                   <caom2:polarizationAxis>4</caom2:polarizationAxis>
                   <caom2:position>
                     <caom2:axis>
@@ -164,6 +164,28 @@
                         <caom2:ctype>DEC--SIN</caom2:ctype>
                         <caom2:cunit>deg</caom2:cunit>
                       </caom2:axis2>
+                      <caom2:bounds>
+                        <caom2:polygon>
+                          <caom2:vertices>
+                            <caom2:vertex>
+                              <caom2:coord1>1.265111</caom2:coord1>
+                              <caom2:coord2>-37.014938</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>359.970608</caom2:coord1>
+                              <caom2:coord2>-37.014936</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>359.979193</caom2:coord1>
+                              <caom2:coord2>-35.981334</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>1.256531</caom2:coord1>
+                              <caom2:coord2>-35.981336</caom2:coord2>
+                            </caom2:vertex>
+                          </caom2:vertices>
+                        </caom2:polygon>
+                      </caom2:bounds>
                       <caom2:function>
                         <caom2:dimension>
                           <caom2:naxis1>3722</caom2:naxis1>
@@ -250,7 +272,7 @@
             </caom2:part>
           </caom2:parts>
         </caom2:artifact>
-        <caom2:artifact caom2:id="00000000-0000-0000-b591-27680bff6a4b">
+        <caom2:artifact caom2:id="00000000-0000-0000-8919-9b2a1b7ee856" caom2:lastModified="2018-09-17T19:55:14.310" caom2:maxLastModified="2019-07-04T19:43:36.648" caom2:metaChecksum="md5:44d4fb8b1b160b6c424ff539913c30e6" caom2:accMetaChecksum="md5:b70c79a797b5c6b94b036c2d0acc845d">
           <caom2:uri>ad:VLASS/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits</caom2:uri>
           <caom2:productType>science</caom2:productType>
           <caom2:releaseType>data</caom2:releaseType>
@@ -258,14 +280,15 @@
           <caom2:contentLength>55425600</caom2:contentLength>
           <caom2:contentChecksum>md5:40f7c2763f92ea6e9c6b0304c569097e</caom2:contentChecksum>
           <caom2:parts>
-            <caom2:part caom2:id="00000000-0000-0000-80c4-205841ed41fa">
+            <caom2:part caom2:id="00000000-0000-0000-930a-b18b70de8d6e" caom2:lastModified="2018-09-17T19:55:14.310" caom2:maxLastModified="2019-07-04T19:43:36.648" caom2:metaChecksum="md5:0200a74b6ce45d4b596521641ac2f9cf" caom2:accMetaChecksum="md5:7d9d0a06347ab470fa5f5a6b67677580">
               <caom2:name>0</caom2:name>
               <caom2:chunks>
-                <caom2:chunk caom2:id="00000000-0000-0000-8e57-ec6e540165d0">
+                <caom2:chunk caom2:id="00000000-0000-0000-adb7-3a25fa89293a" caom2:lastModified="2019-07-04T19:43:36.648" caom2:maxLastModified="2019-07-04T19:43:36.648" caom2:metaChecksum="md5:5363c0e790ba75b5db6072f1545c3919" caom2:accMetaChecksum="md5:ff2f3a891fe3651efd0c607c0307b75e">
                   <caom2:naxis>4</caom2:naxis>
                   <caom2:positionAxis1>1</caom2:positionAxis1>
                   <caom2:positionAxis2>2</caom2:positionAxis2>
                   <caom2:energyAxis>3</caom2:energyAxis>
+                  <caom2:timeAxis>5</caom2:timeAxis>
                   <caom2:polarizationAxis>4</caom2:polarizationAxis>
                   <caom2:position>
                     <caom2:axis>
@@ -277,6 +300,28 @@
                         <caom2:ctype>DEC--SIN</caom2:ctype>
                         <caom2:cunit>deg</caom2:cunit>
                       </caom2:axis2>
+                      <caom2:bounds>
+                        <caom2:polygon>
+                          <caom2:vertices>
+                            <caom2:vertex>
+                              <caom2:coord1>1.265111</caom2:coord1>
+                              <caom2:coord2>-37.014938</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>359.970608</caom2:coord1>
+                              <caom2:coord2>-37.014936</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>359.979193</caom2:coord1>
+                              <caom2:coord2>-35.981334</caom2:coord2>
+                            </caom2:vertex>
+                            <caom2:vertex>
+                              <caom2:coord1>1.256531</caom2:coord1>
+                              <caom2:coord2>-35.981336</caom2:coord2>
+                            </caom2:vertex>
+                          </caom2:vertices>
+                        </caom2:polygon>
+                      </caom2:bounds>
                       <caom2:function>
                         <caom2:dimension>
                           <caom2:naxis1>3722</caom2:naxis1>

@@ -1,18 +1,4 @@
-FROM python:3.6-alpine
-
-RUN apk --no-cache add \
-        bash \
-        coreutils \
-	gcc \
-	git \
-	g++ \
-	libffi-dev \
-	libmagic \
-	libxml2-dev \
-	libxslt-dev \
-	make \
-	musl-dev \
-	openssl-dev
+FROM matplotlib_common
 
 RUN pip install aenum && \
 	pip install astropy && \
@@ -27,14 +13,8 @@ RUN pip install aenum && \
 	pip install vos && \
 	pip install xml-compare 
 
-RUN pip install flake8 && \
-	pip install mock && \
-	pip install pytest && \
-	pip install pytest-cov && \
-	pip install pytest-runner
-
 WORKDIR /usr/src/app
-COPY ./ ./caom2tools
+COPY ./caom2tools ./caom2tools
 RUN cd caom2tools && \
         pip install ./caom2 && \
         pip install ./caom2pipe && \

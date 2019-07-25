@@ -8,13 +8,20 @@ check_client_gem() {
   failure_log="${_run_dir}/logs/failure_log.txt"
   success_log="${_run_dir}/logs/success_log.txt"
   retries_log="${_run_dir}/logs/retries.txt"
+  rejected_log="${_run_dir}/logs/rejected.yml"
   file_is_not_zero ${failure_log}
   file_is_not_zero ${retries_log}
+  # even an empty file has the dict keys
+  file_is_zero ${rejected_log}
   file_is_zero ${success_log}
+  # the named preview file does not currently exist at archive.gemini.edu
+  file_does_not_have_content S20080610S0045 ${rejected_log}
+  metrics="${_run_dir}/metrics"
+  directory_does_not_exist ${metrics}
 }
 
 run_test_gem() {
-  for ii in gem
+  for ii in visit_gem
   do
     echo "Run ${ii} test case ..."
     run_dir=${RUN_ROOT}/${ii}
@@ -23,33 +30,33 @@ run_test_gem() {
     cleanup_files "${run_dir}/logs/*.log"
     cleanup_files "${run_dir}/logs_0/*.txt"
     cleanup_files "${run_dir}/logs_0/*.log"
+    cleanup_files "${run_dir}/metrics/*.yml"
     if [[ -e "${run_dir}/logs_0/" ]]
     then
       sudo rmdir "${run_dir}/logs_0/" || exit $?
     fi
-    # output="$(docker run --rm gem_run_int gem_run_query 2018-10-19 2018-10-20 abc 2>&1)"
-    proxy_content=$(cat ${HOME}/.ssl/cadcproxy.pem)
-    docker run --rm gem_run_int gem_run_query 2018-10-19T02:00:00 2018-10-19T14:00:00 "${proxy_content}"
+    if [[ -e "${run_dir}/metrics/" ]]
+    then
+      sudo rmdir "${run_dir}/metrics/" || exit $?
+    fi
+    echo "Get proxy cert"
+    cp $HOME/.ssl/cadcproxy.pem ${run_dir} || exit $?
+    docker run --rm -v ${run_dir}:/usr/src/app gem_run_int gem_run
     result=$?
     if [[ ${result} -ne 0 ]]
     then
-      echo "gem_run_query failed for ${ii}"
-      # echo "${output}"
+      echo "gem_run_query failed for ${ii} with result ${result}"
       exit -1
     fi
-    # echo "${output}"
   done
 }
 
 setup()
 {
   build_int_common
-  # copy the latest version of caom2tools code that's required for a python
-  # install - use the minimal amount of the repo contents
   echo "Copy the source code ..."
   copy_pip_install ${GEM_ROOT} gem2caom2 gem2caom2
-  cp $HOME/.ssl/cadcproxy.pem ${RUN_ROOT}/gem2caom2/proxy.pem
-  cp ${GEM_ROOT}/config.yml ${RUN_ROOT}/gem2caom2
+  cp ${GEM_ROOT}/gem2caom2/tests/data/from_paul.txt ${RUN_ROOT}/gem2caom2
   
   echo "Build gem container ..."
   output=$(docker build -f ./Dockerfile.gem -t gem_run_int ./ 2>&1 || exit $?)
@@ -64,6 +71,8 @@ setup()
 
 setup
 run_test_gem
-#check_client_gem ${RUN_ROOT}/retries
+check_client_gem ${RUN_ROOT}/visit_gem
+check_observation_in_db GEMINI GS-2017A-Q-58-66-027
+check_observation_in_db GEMINI GS-2008A-C-5-35-002
 echo -n "$(basename $0) Success at: "
 date

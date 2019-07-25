@@ -4,11 +4,12 @@ RUN pip install bs4
 
 RUN apk --no-cache add imagemagick
   
-COPY ./gem2caom2/proxy.pem /usr/src/app/cadcproxy.pem
 COPY ./gem2caom2 ./gem2caom2
-RUN pip install ./gem2caom2
+# RUN pip install ./gem2caom2 && mkdir -p /app/data && \
+#   cp ./gem2caom2/from_paul.txt /app/data
+RUN pip install ./gem2caom2 && mkdir -p /app/data && \
+  cp ./gem2caom2/2019-07-03_from_paul.txt /app/data/from_paul.txt
 
-COPY ./docker-entrypoint.sh /usr/src/app/docker-entrypoint.sh
-COPY ./gem2caom2/config.yml /usr/src/app/config.yml
+COPY ./docker-entrypoint.sh /
 
-ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]

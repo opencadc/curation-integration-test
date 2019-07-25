@@ -3,7 +3,7 @@
 . ${T}/common_test.sh || exit $?
 COLLECTIONS=( vlass cgps omm gem draost )
 
-docker_cleanup
+# docker_cleanup
 build_int_common
 
 # copy the latest version of caom2tools code that's required for a python
@@ -38,8 +38,8 @@ done
 
 . ${I}/test_vlass.sh
 . ${I}/test_omm.sh
+. ${I}/test_gem.sh
 . ${I}/test_retries.sh
-# . ${I}/test_pull.sh
 
 echo -n 'Success at: '
 date

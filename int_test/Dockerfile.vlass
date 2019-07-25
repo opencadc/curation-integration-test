@@ -1,8 +1,6 @@
-FROM int_common
+FROM int_matplotlib
 
 RUN pip install bs4
-
-RUN pip install cadctap
 
 COPY ./vlass2caom2 ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 
@@ -10,6 +8,9 @@ RUN pip install ./vlass2caom2/
 COPY ./vlass2caom2/data/ArchiveQuery-2018-08-15.csv /usr/src/
 COPY ./vlass2caom2/data/rejected_file_names-2018-09-05.csv /usr/src/
 COPY ./docker-entrypoint.sh ./
+COPY ./vlass2caom2/scripts/config.yml /
+COPY ./vlass2caom2/scripts/docker-entrypoint.sh /
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 

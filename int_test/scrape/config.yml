@@ -34,3 +34,4 @@ task_types:
   - scrape
 features:
   use_file_names: False
+  use_urls: False

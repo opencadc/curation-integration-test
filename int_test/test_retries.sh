@@ -30,6 +30,8 @@ check_client_retries() {
   unexpected_retry_log_dir2="${_run_dir}/logs_0_0"
   file_exists ${unexpected_retry_log_dir1}
   file_exists ${unexpected_retry_log_dir2}
+  metrics="${_run_dir}/metrics"
+  directory_does_not_exist ${metrics}
 }
 
 run_test_retries() {
@@ -42,9 +44,14 @@ run_test_retries() {
     cleanup_files "${run_dir}/logs/*.log"
     cleanup_files "${run_dir}/logs_0/*.txt"
     cleanup_files "${run_dir}/logs_0/*.log"
+    cleanup_files "${run_dir}/metrics/*.yml"
     if [[ -e "${run_dir}/logs_0/" ]]
     then
       sudo rmdir "${run_dir}/logs_0/" || exit $?
+    fi
+    if [[ -e "${run_dir}/metrics/" ]]
+    then
+      sudo rmdir "${run_dir}/metrics/" || exit $?
     fi
     cp $HOME/.ssl/cadcproxy.pem ${run_dir}
     output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1)"

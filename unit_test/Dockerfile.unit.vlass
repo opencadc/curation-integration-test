@@ -1,14 +1,15 @@
-FROM unit_common
-RUN pip install bs4
-
-RUN pip install cadctap
+FROM unit_matplotlib
+RUN pip install bs4 
 
 COPY ./ ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 
 
 COPY ./data/ArchiveQuery-2018-08-15.csv /usr/src/
 COPY ./data/rejected_file_names-2018-09-05.csv /usr/src/
-COPY ./docker-entrypoint.sh /usr/src/app/vlass2caom2
+COPY ./scripts/docker-entrypoint.sh /usr/src/app/vlass2caom2
+COPY ./vlass2caom2/tests/data/config.yml /
+COPY ./vlass2caom2/tests/data/todo.txt /usr/src/app/
+COPY ./vlass2caom2/tests/data/state.yml /usr/src/app/
 
 ENTRYPOINT ["/usr/src/app/vlass2caom2/docker-entrypoint.sh"]
 

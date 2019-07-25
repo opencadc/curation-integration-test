@@ -12,7 +12,14 @@ setup()
   copy_pip_install ${OMM_ROOT} omm2caom2 omm2caom2
 
   echo "Build omm container ..."
-  docker_build=$(docker build -f ./Dockerfile.omm -t omm_run_int ./ 2>&1 || exit $?)
+  output=$(docker build -f ./Dockerfile.omm -t omm_run_int ./ 2>&1 || exit $?)
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "${output}"
+    echo "docker build failed for omm"
+    exit -1
+  fi
 
   echo "Get the latest version of the files under test where it matters ..."
   cd ${RUN_ROOT}/store_ingest_modify || exit $?
@@ -52,15 +59,24 @@ omm_run_int_test_case()
   cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.xml"
   cleanup_files "${run_dir}/*.jpg"
+  if [[ -e ${run_dir}/metrics ]]
+  then
+    echo "clean up metrics directory"
+    cleanup_files "${run_dir}/metrics/*.yml"
+    sudo rmdir ${run_dir}/metrics || exit $?
+  fi
 
   echo "docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1"
   output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1)"
   result=$?
   if [[ ${result} -ne 0 ]]
   then
-    echo "omm_run failed for ${1}"
-    echo "${output}"
-    exit -1
+    if [[ ${ii} != "failures" ]]
+    then
+      echo "${output}"
+      echo "omm_run failed with result status ${result} for ${1}"
+      exit -1
+    fi
   fi
   if [[ ${output} != *" correctly"* ]]
   then
@@ -87,7 +103,7 @@ omm_run_todo_test_case() {
     # output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run --todo ./abc.txt 2>&1)"
     docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run --todo ./abc.txt
     result=$?
-    if [[ ${result} -ne 0 ]]
+    if [[ ${result} -ne 255 ]]
     then
       echo "omm_run failed for ${ii}"
       exit -1

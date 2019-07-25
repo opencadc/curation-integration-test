@@ -20,6 +20,9 @@
       <caom2:calibrationLevel>1</caom2:calibrationLevel>
       <caom2:provenance>
         <caom2:name>CPAPIR</caom2:name>
+	<caom2:version>1.0</caom2:version>
+	<caom2:project>Standard Pipeline</caom2:project>
+	<caom2:reference>http://genesis.astro.umontreal.ca</caom2:reference>
         <caom2:inputs>
           <caom2:planeURI>caom:OMM/C100521_0293_CAL/C100521_0293_CAL</caom2:planeURI>
           <caom2:planeURI>caom:OMM/C100521_0237_CAL/C100521_0237_CAL</caom2:planeURI>
