@@ -5,9 +5,7 @@ cd ${U} || exit $?
 . ${T}/common_test.sh || exit ?
 
 ROOT_DIR="${D}"
-# COLLECTIONS=( gem cgps omm vlass drao26m draost draosfm draogmims askap )
-# COLLECTIONS=( gem omm vlass drao26m draost draosfm draogmims askap )
-COLLECTIONS=( gem omm vlass askap draost cgps )
+COLLECTIONS=( neossat gem omm vlass askap draost cgps )
 
 # provide a collection name as a parameter to 'run just one' set of
 # unit tests

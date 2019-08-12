@@ -1,0 +1,6 @@
+**/*.fits
+**/*.fits.gz
+**/*.fits.xml
+**/*.jpg
+**/rejected.yml
+int_test/ingest/state.yml

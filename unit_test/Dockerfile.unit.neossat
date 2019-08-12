@@ -1,0 +1,7 @@
+FROM unit_matplotlib
+
+COPY ./ ./neossat2caom2/
+RUN pip install ./neossat2caom2/ 
+
+ENTRYPOINT ["/usr/src/app/neossat2caom2/docker-entrypoint.sh"]
+
