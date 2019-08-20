@@ -15,7 +15,11 @@ VLASS_ROOT=${DEV_DIR}/vlass2caom2
 
 CONT_ROOT="/usr/src/app"
 UNIT_COMMON="unit_common"
+UNIT_MATPLOTLIB="unit_matplotlib"
+# a container with just matplotlib, and footprintfinder.py, on it
+MATPLOTLIB_COMMON="matplotlib_common"
 INT_COMMON="int_common"
+INT_MATPLOTLIB="int_matplotlib"
 
 # stop if a file has any content
 file_is_zero() {
