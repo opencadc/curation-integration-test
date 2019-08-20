@@ -56,6 +56,7 @@ setup()
   build_int_common
   echo "Copy the source code ..."
   copy_pip_install ${GEM_ROOT} gem2caom2 gem2caom2
+  echo "cp ${GEM_ROOT}/gem2caom2/tests/data/from_paul.txt ${RUN_ROOT}/gem2caom2"
   cp ${GEM_ROOT}/gem2caom2/tests/data/from_paul.txt ${RUN_ROOT}/gem2caom2
   
   echo "Build gem container ..."
