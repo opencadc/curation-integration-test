@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p ${U}/test_files || exit $?
 cd ${U}/test_files || exit $?
 for f_name in C170324_0054_SCI.fits
 do

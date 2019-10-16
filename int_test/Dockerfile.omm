@@ -13,9 +13,9 @@ RUN apk --no-cache add libjpeg-turbo-dev
 RUN oldpath=`pwd` && cd /tmp \
 && git clone https://github.com/spacetelescope/fitscut \
 && cd fitscut \
-&& wget ftp://cfa-ftp.harvard.edu/pub/gsc/WCSTools/wcssubs-3.9.0.tar.gz \
-&& tar zxvf wcssubs-3.9.0.tar.gz \
-&& mv wcssubs-3.9.0 libwcs \
+&& wget http://tdc-www.harvard.edu/software/wcstools/wcssubs-3.9.5.tar.gz \
+&& tar zxvf wcssubs-3.9.5.tar.gz \
+&& mv wcssubs-3.9.5 libwcs \
 && cd libwcs \
 && make \
 && cp libwcs.a /usr/lib \

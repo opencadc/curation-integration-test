@@ -1,0 +1,12 @@
+FROM int_matplotlib
+
+COPY ./neossat2caom2 ./neossat2caom2/
+RUN pip install ./neossat2caom2/ 
+
+COPY ./docker-entrypoint.sh ./
+COPY ./neossat2caom2/scripts/config.yml /
+COPY ./neossat2caom2/scripts/docker-entrypoint.sh /
+
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+

@@ -21,7 +21,7 @@ check_client_pull() {
   then
     echo "compare_observations execution failed for ${obs_id}"
     echo "${output}"
-    exit -1
+    exit 1
   fi
 }
 
@@ -41,7 +41,7 @@ run_test_pull() {
     then
       echo "${APP} failed for ${ii}"
       echo "${output}"
-      exit -1
+      exit 1
     fi
     check_client_${ii} ${run_dir}
   done
@@ -63,7 +63,7 @@ setup()
   then
     echo "${APP} failed for ${ii}"
     echo "${docker_build}"
-    exit -1
+    exit 1
   fi
 }
 

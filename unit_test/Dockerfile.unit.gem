@@ -1,7 +1,8 @@
 FROM unit_common
 
 RUN pip install bs4
-RUN apk --no-cache add imagemagick
+RUN apk --no-cache add \
+	imagemagick
 
 COPY ./ ./gem2caom2
 RUN pip install ./gem2caom2

@@ -1,0 +1,10 @@
+FROM unit_common
+
+COPY ./ ./vlite2caom2/
+RUN pip install ./vlite2caom2/ 
+
+COPY ./scripts/docker-entrypoint.sh /usr/src/app/vlite2caom2
+COPY ./scripts/config.yml /
+
+ENTRYPOINT ["/usr/src/app/vlite2caom2/docker-entrypoint.sh"]
+

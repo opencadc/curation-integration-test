@@ -2,7 +2,8 @@
 
 ROOT_DIR="/Volumes/Development"
 DEV_DIR="${ROOT_DIR}/dev"
-RUN_ROOT=${ROOT_DIR}/tests/int_test
+RUN_ROOT=${ROOT_DIR}/test/int_test
+ACTUAL=${RUN_ROOT}/actual
 TOOLS_ROOT=${DEV_DIR}/caom2tools
 
 CGPS_ROOT=${DEV_DIR}/cgps2caom2
@@ -17,7 +18,7 @@ CONT_ROOT="/usr/src/app"
 UNIT_COMMON="unit_common"
 UNIT_MATPLOTLIB="unit_matplotlib"
 # a container with just matplotlib, and footprintfinder.py, on it
-MATPLOTLIB_COMMON="matplotlib_common"
+# MATPLOTLIB_COMMON="matplotlib_common"
 INT_COMMON="int_common"
 INT_MATPLOTLIB="int_matplotlib"
 
@@ -28,11 +29,11 @@ file_is_zero() {
     if [[ ! -s ${1} ]]
     then
       echo "${1} not generated."
-      exit -1
+      exit 1
     fi
   else
     echo "${1} should exist."
-    exit -1
+    exit 1
   fi
 }
 
@@ -43,11 +44,11 @@ file_is_not_zero() {
     if [[ -s ${1} ]]
     then
       echo "${1} generated."
-      exit -1
+      exit 1
     fi
   else
     echo "${1} should exist."
-    exit -1
+    exit 1
   fi
 }
 
@@ -56,7 +57,7 @@ file_exists() {
   if [[ -e  ${1} ]]
   then
     echo "${1} should not exist."
-    exit -1
+    exit 1
   fi
 }
 
@@ -65,7 +66,7 @@ file_has_content() {
   if grep "${1}" "${2}"
   then
     echo "${1} not expected in ${2}."
-    exit -1
+    exit 1
   fi
 }
 
@@ -74,7 +75,16 @@ file_does_not_have_content() {
   if ! grep "${1}" "${2}"
   then
     echo "${1} expected in ${2}."
-    exit -1
+    exit 1
+  fi
+}
+
+# stop if a directory does not exist
+directory_does_not_exist() {
+  if [[ ! -d  ${1} ]]
+  then
+    echo "${1} should exist and should be a directory."
+    exit 1
   fi
 }
 
@@ -91,20 +101,20 @@ check_observation_in_db() {
   then
     echo "caom2-repo failed for ${obs_id}"
     echo "${output}"
-    exit -1
+    exit 1
   fi
   output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} int_common python compare_observations.py ${expected} ${actual} 2>&1)
   if [[ ${result} -ne 0 ]]
   then
     echo "compare_observations execution failed for ${obs_id}"
     echo "${output}"
-    exit -1
+    exit 1
   fi
   if [[ "${#output}" -gt 0 ]]
   then
     echo "compare_observations failed for ${obs_id}"
     echo "${output}"
-    exit -1
+    exit 1
   fi
 }
 
@@ -300,10 +310,15 @@ copy_pip_install() {
   fi
   mkdir -p ${2}/${3} || exit $?
   cp ${1}/${3}/*.py ${2}/${3} || exit $?
-  if [[ -e ${1}/${3}/data ]]
+  if [[ -e ${1}/data ]]
   then
-    mkdir -p ${2}/${3}/data || exit $?
-    cp ${1}/${3}/data/* ${2}/${3}/data || exit $?
+    mkdir -p ${2}/data || exit $?
+    cp ${1}/data/* ${2}/data || exit $?
+  fi
+  if [[ -e ${1}/scripts ]]
+  then
+    mkdir -p ${2}/scripts || exit $?
+    cp ${1}/scripts/* ${2}/scripts || exit $?
   fi
 }
 
@@ -346,14 +361,18 @@ build_int_common()
   copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
   copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
   copy_pip_install ${TOOLS_ROOT}/caom2 caom2tools/caom2 caom2
-  echo "Build common container"
-  output="$(docker build -f ${I}/Dockerfile.common -t ${INT_COMMON} ./ 2>&1)"
-  result=$?
-  if [[ ${result} -ne 0 ]]
-  then
-    echo "${output}"
-    exit -1
-  fi
+  for container in $INT_COMMON $INT_MATPLOTLIB
+  do
+    echo "Build container ${container}"
+    output="$(docker build -f ${I}/Dockerfile.${container} -t ${container} ./ 2>&1)"
+    result=$?
+    if [[ ${result} -ne 0 ]]
+    then
+      echo "${output}"
+      echo "docker build failed for ${container}"
+      exit 1
+    fi
+  done
 }
 
 

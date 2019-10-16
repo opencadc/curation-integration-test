@@ -2,6 +2,7 @@ working_directory: /usr/src/app
 proxy_filename: /usr/src/app/cadcproxy.pem
 resource_id: ivo://cadc.nrc.ca/sc2repo
 use_local_files: False
+log_file_directory: /usr/src/app/logs
 logging_level: INFO
 log_to_file: True
 task_types:

@@ -1,10 +1,11 @@
 #!/bin/bash
 
 . ${T}/common_test.sh || exit $?
-COLLECTIONS=( vlass cgps omm gem draost )
+COLLECTIONS=( vlass cgps omm gem draost neossat )
 
 # docker_cleanup
 build_int_common
+mkdir -p ${ACTUAL} || exit $?
 
 # copy the latest version of caom2tools code that's required for a python
 # install - use the minimal amount of the repo contents
@@ -39,6 +40,7 @@ done
 . ${I}/test_vlass.sh
 . ${I}/test_omm.sh
 . ${I}/test_gem.sh
+. ${I}/test_neossat.sh
 . ${I}/test_retries.sh
 
 echo -n 'Success at: '

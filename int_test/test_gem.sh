@@ -46,7 +46,7 @@ run_test_gem() {
     if [[ ${result} -ne 0 ]]
     then
       echo "gem_run_query failed for ${ii} with result ${result}"
-      exit -1
+      exit 1
     fi
   done
 }
@@ -66,7 +66,7 @@ setup()
   then
     echo "docker build failed for Dockerfile.gem"
     echo "${output}"
-    exit -1
+    exit 1
   fi
 }
 

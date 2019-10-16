@@ -30,7 +30,7 @@
   </caom2:instrument>
   <caom2:planes>
     <caom2:plane caom2:id="00000000-0000-0000-b02a-79551436d600" caom2:lastModified="2019-07-04T16:27:57.583" caom2:maxLastModified="2019-07-04T16:27:57.583" caom2:metaChecksum="md5:aaa1930851e9e4ab0e563d4dc2933f53" caom2:accMetaChecksum="md5:0dbc2bb0fbd04294a4338977dd173fa3">
-      <caom2:productID>VLASS1.1.T10t12.J075402-033000.quicklook.v1</caom2:productID>
+      <caom2:productID>VLASS1.1.T10t12.J075402-033000.quicklook</caom2:productID>
       <caom2:metaRelease>2018-01-12T05:52:07.000</caom2:metaRelease>
       <caom2:dataRelease>2018-01-12T05:52:07.000</caom2:dataRelease>
       <caom2:dataProductType>image</caom2:dataProductType>

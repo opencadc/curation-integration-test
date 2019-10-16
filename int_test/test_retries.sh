@@ -60,7 +60,7 @@ run_test_retries() {
     then
       echo "omm_run failed for ${ii}"
       echo "${output}"
-      exit -1
+      exit 1
     fi
     echo "${output}"
     check_client_${ii} ${run_dir}

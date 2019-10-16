@@ -18,7 +18,7 @@ setup()
   then
     echo "${output}"
     echo "docker build failed for omm"
-    exit -1
+    exit 1
   fi
 
   echo "Get the latest version of the files under test where it matters ..."
@@ -44,7 +44,7 @@ omm_run_single_test() {
     if [[ ${result} -ne 0 ]]
     then
       echo "omm_run_single failed for ${ii}"
-      exit -1
+      exit 1
     fi
     check_${ii}
   done
@@ -75,7 +75,7 @@ omm_run_int_test_case()
     then
       echo "${output}"
       echo "omm_run failed with result status ${result} for ${1}"
-      exit -1
+      exit 1
     fi
   fi
   if [[ ${output} != *" correctly"* ]]
@@ -84,7 +84,7 @@ omm_run_int_test_case()
     then
       echo "${output}"
       echo "omm_run failed for ${1}"
-      exit -1
+      exit 1
     fi
   fi
   echo "${output}"
@@ -106,7 +106,7 @@ omm_run_todo_test_case() {
     if [[ ${result} -ne 255 ]]
     then
       echo "omm_run failed for ${ii}"
-      exit -1
+      exit 1
     fi
     check_${ii}
   done
