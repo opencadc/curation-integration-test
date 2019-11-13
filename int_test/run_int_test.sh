@@ -43,6 +43,7 @@ done
 . ${I}/test_neossat.sh
 . ${I}/test_retries.sh
 
-echo -n 'Success at: '
-date
+msg=$(echo -n "Success at: " $(date))
+echo $msg
+echo $msg >> $I/execution_log.txt
 exit 0

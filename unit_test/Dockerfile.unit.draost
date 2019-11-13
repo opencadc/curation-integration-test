@@ -1,11 +1,18 @@
 FROM unit_common
 RUN pip install jsonpickle
 
-COPY ./ ./draost2caom2/
+COPY ./caom2tools_unit ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
+
+COPY ./draost2caom2_unit ./draost2caom2/
 RUN pip install ./draost2caom2/ 
 
-COPY ./scripts/docker-entrypoint.sh /usr/src/app/draost2caom2
-COPY ./scripts/config.yml /
+COPY ./draost2caom2_unit/scripts/docker-entrypoint.sh /usr/src/app/draost2caom2
+COPY ./draost2caom2_unit/scripts/config.yml /
 
 ENTRYPOINT ["/usr/src/app/draost2caom2/docker-entrypoint.sh"]
 

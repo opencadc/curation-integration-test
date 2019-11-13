@@ -1,5 +1,12 @@
 FROM int_matplotlib
 
+COPY ./caom2tools ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
+
 COPY ./neossat2caom2 ./neossat2caom2/
 RUN pip install ./neossat2caom2/ 
 

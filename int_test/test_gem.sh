@@ -75,5 +75,6 @@ run_test_gem
 check_client_gem ${RUN_ROOT}/visit_gem
 check_observation_in_db GEMINI GS-2017A-Q-58-66-027
 check_observation_in_db GEMINI GS-2008A-C-5-35-002
-echo -n "$(basename $0) Success at: "
-date
+msg=$(echo -n "$(basename $0) Success at: " $(date))
+echo $msg
+echo $msg >> $I/execution_log.txt

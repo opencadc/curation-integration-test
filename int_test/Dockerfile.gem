@@ -1,9 +1,15 @@
-FROM int_common
-
-RUN pip install bs4
+FROM int_pandas
 
 RUN apk --no-cache add imagemagick
+RUN pip install bs4
   
+COPY ./caom2tools ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
+
 COPY ./gem2caom2 ./gem2caom2
 RUN pip install ./gem2caom2 && mkdir -p /app/data && \
   cp ./gem2caom2/from_paul.txt /app/data

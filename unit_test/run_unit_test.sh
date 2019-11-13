@@ -101,11 +101,13 @@ echo "Copy credentials into the gemini container - note that dockerignore says i
 cp $HOME/.ssl/cadcproxy.pem ./gem2caom2_unit/proxy.pem || exit $?
 
 echo "Build the unit test common containers."
-cp ${U}/Dockerfile.${UNIT_COMMON} caom2tools_unit || exit $?
-cp ${U}/Dockerfile.${UNIT_MATPLOTLIB} caom2tools_unit || exit $?
+for image in $UNIT_COMMON $UNIT_MATPLOTLIB $UNIT_PANDAS $UNIT_CAOM2TOOLS; do
+    cp ${U}/Dockerfile.${image} caom2tools_unit || exit $?
+done
+cp ${U}/docker-entrypoint.sh caom2tools_unit || exit $?
 cd ${U}/caom2tools_unit || exit $?
 setup_caom2pipe
-for container in $UNIT_COMMON $UNIT_MATPLOTLIB
+for container in $UNIT_COMMON $UNIT_MATPLOTLIB $UNIT_PANDAS $UNIT_CAOM2TOOLS
 do
   echo "build ${container}"
   output=$(docker build -f ./Dockerfile.${container} -t $container ./ || exit $?)
@@ -122,19 +124,19 @@ cd ${U} || exit $?
 echo "Build the containers ${build_set[@]}"
 for ii in "${build_set[@]}"
 do
-  if [[ "${ii}" != "caom2utils" && ${ii} != "caom2pipe" && ${ii} != "omm" ]]
-  then
-    cp ${U}/Dockerfile.unit.${ii} ${U}/${ii}2caom2_unit || exit $?
-    cd ${U}/${ii}2caom2_unit || exit $?
-  else
-    cd ${U} || exit $?
-  fi
+#   if [[ "${ii}" != "caom2utils" && ${ii} != "caom2pipe" && ${ii} != "omm" ]]
+#   then
+#     cp ${U}/Dockerfile.unit.${ii} ${U}/${ii}2caom2_unit || exit $?
+#     cd ${U}/${ii}2caom2_unit || exit $?
+#   else
+#     cd ${U} || exit $?
+#   fi
   docker build -f ./Dockerfile.unit.${ii} -t ${ii}_unit ./ || exit $?
 done
 
 echo "Run the unit tests for caom2utils."
-echo "docker run --rm -w /usr/src/app/caom2tools/caom2utils ${UNIT_MATPLOTLIB} python setup.py test 2>&1"
-output=$(docker run --rm -w /usr/src/app/caom2tools/caom2utils ${UNIT_MATPLOTLIB} python setup.py test 2>&1)
+echo "docker run --rm -w /usr/src/app/caom2tools/caom2utils ${UNIT_CAOM2TOOLS} python setup.py test 2>&1"
+output=$(docker run --rm -w /usr/src/app/caom2tools/caom2utils ${UNIT_CAOM2TOOLS} python setup.py test 2>&1)
 result=$?
 if [[ ${result} -ne 0 ]]
 then
@@ -143,7 +145,7 @@ then
   exit 1
 fi
 echo "Run flake8 for caom2utils."
-output=$(docker run --rm -w /usr/src/app/caom2tools/caom2utils/caom2utils ${UNIT_MATPLOTLIB} flake8 2>&1)
+output=$(docker run --rm -w /usr/src/app/caom2tools/caom2utils/caom2utils ${UNIT_CAOM2TOOLS} flake8 2>&1)
 result=$?
 if [[ ${result} -ne 0 ]]
 then
@@ -152,7 +154,7 @@ then
   exit 1
 fi
 echo "Run the unit tests for caom2pipe."
-output=$(docker run --rm -w /usr/src/app/caom2tools/caom2pipe ${UNIT_MATPLOTLIB} python setup.py test 2>&1)
+output=$(docker run --rm -w /usr/src/app/caom2tools/caom2pipe ${UNIT_CAOM2TOOLS} python setup.py test 2>&1)
 result=$?
 if [[ ${result} -ne 0 ]]
 then
@@ -161,7 +163,7 @@ then
   exit 1
 fi
 echo "Run flake8 for caom2pipe."
-output=$(docker run --rm -w /usr/src/app/caom2tools/caom2pipe/caom2pipe ${UNIT_MATPLOTLIB} flake8 2>&1)
+output=$(docker run --rm -w /usr/src/app/caom2tools/caom2pipe/caom2pipe ${UNIT_CAOM2TOOLS} flake8 2>&1)
 result=$?
 if [[ ${result} -ne 0 ]]
 then
@@ -188,6 +190,7 @@ do
     exit 1
   fi
 done
-echo -n 'Success at: '
-date
+msg=$(echo -n "${test_set} Success at:" $(date))
+echo $msg
+echo $msg >> $U/execution_log.txt
 exit 0

@@ -27,11 +27,18 @@ RUN oldpath=`pwd` && cd /tmp \
 && make clean \
 && cd $oldpath \
 && rm -Rf /tmp/fitscut*
+ 
+COPY ./caom2tools_unit ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
 
 COPY ./omm2caom2_unit/ ./omm2caom2/
 RUN pip install ./omm2caom2/
 
-COPY ./docker-entrypoint.sh /usr/src/app/omm2caom2 
+COPY ./omm2caom2_unit/docker-entrypoint.sh /usr/src/app/omm2caom2 
 
 ENTRYPOINT ["/usr/src/app/omm2caom2/docker-entrypoint.sh"]
 

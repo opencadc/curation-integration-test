@@ -88,5 +88,6 @@ setup()
 
 setup
 run_test_retries
-echo -n "$(basename $0) Success at: "
-date
+msg=$(echo -n "$(basename $0) Success at: " $(date))
+echo $msg
+echo $msg >> $I/execution_log.txt

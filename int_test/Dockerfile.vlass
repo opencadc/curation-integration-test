@@ -1,6 +1,19 @@
 FROM int_matplotlib
 
+RUN oldpath=`pwd` && cd /tmp && \
+    wget http://www.eso.org/~fstoehr/footprintfinder.py && \
+    cp footprintfinder.py /usr/local/lib/python3.6/site-packages/footprintfinder.py && \
+    chmod 755 /usr/local/lib/python3.6/site-packages/footprintfinder.py && \
+    cd $oldpath
+
 RUN pip install bs4
+
+COPY ./caom2tools ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
 
 COPY ./vlass2caom2 ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 

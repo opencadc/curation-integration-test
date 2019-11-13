@@ -1,5 +1,11 @@
 FROM int_matplotlib
 
+RUN oldpath=`pwd` && cd /tmp && \
+    wget http://www.eso.org/~fstoehr/footprintfinder.py && \
+    cp footprintfinder.py /usr/local/lib/python3.6/site-packages/footprintfinder.py && \
+    chmod 755 /usr/local/lib/python3.6/site-packages/footprintfinder.py && \
+    cd $oldpath
+
 RUN git clone https://github.com/HEASARC/cfitsio && \
   cd cfitsio && \
   ./configure --prefix=/usr && \
@@ -27,6 +33,13 @@ RUN oldpath=`pwd` && cd /tmp \
 && cd $oldpath \
 && rm -Rf /tmp/fitscut*
 
+COPY ./caom2tools ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
+ 
 COPY ./omm2caom2/ ./omm2caom2/
 RUN pip install ./omm2caom2/
 

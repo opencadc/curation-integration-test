@@ -1,6 +1,0 @@
-FROM unit_common
-
-COPY ./docker-entrypoint.sh /usr/src/app/caom2tools/caom2pipe
-
-ENTRYPOINT ["/usr/src/app/caom2tools/caom2pipe/docker-entrypoint.sh"]
-

@@ -17,10 +17,11 @@ VLASS_ROOT=${DEV_DIR}/vlass2caom2
 CONT_ROOT="/usr/src/app"
 UNIT_COMMON="unit_common"
 UNIT_MATPLOTLIB="unit_matplotlib"
-# a container with just matplotlib, and footprintfinder.py, on it
-# MATPLOTLIB_COMMON="matplotlib_common"
+UNIT_PANDAS="unit_pandas"
+UNIT_CAOM2TOOLS="unit_caom2tools"
 INT_COMMON="int_common"
 INT_MATPLOTLIB="int_matplotlib"
+INT_PANDAS="int_pandas"
 
 # stop if a file has any content
 file_is_zero() {
@@ -91,6 +92,7 @@ directory_does_not_exist() {
 check_observation_in_db() {
   collection="${1}"
   obs_id="${2}"
+  image="${3}"
   xml="${obs_id}.xml"
   actual_outside_container="${RUN_ROOT}/actual/${xml}"
   actual="${CONT_ROOT}/actual/${xml}"
@@ -103,7 +105,7 @@ check_observation_in_db() {
     echo "${output}"
     exit 1
   fi
-  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} int_common python compare_observations.py ${expected} ${actual} 2>&1)
+  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} ${image} python compare_observations.py ${expected} ${actual} 2>&1)
   if [[ ${result} -ne 0 ]]
   then
     echo "compare_observations execution failed for ${obs_id}"
@@ -165,10 +167,8 @@ check_store_ingest_modify() {
   xml="${RUN_ROOT}/store_ingest_modify/C180616_0135_SCI.fits.xml"
   log="${RUN_ROOT}/store_ingest_modify/logs/C180616_0135_SCI.log"
   file_does_not_have_content "caom2:metaChecksum" ${xml}
-  # the content checksum is being executed
-  file_does_not_have_content "TaskType.CHECKSUM" ${log}
   obs_id="C180616_0135_SCI"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
 }
 
 check_ingest_modify_local() {
@@ -196,9 +196,9 @@ check_ingest_modify_local() {
   # file_does_not_have_content "footprint generation" ${log}
   file_is_zero ${txt}
   obs_id="C080121_0339_SCI"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
   obs_id="C180108_0002_SCI"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
 }
 
 check_ingest_modify() {
@@ -215,11 +215,24 @@ check_ingest_modify() {
   file_exists ${prev}
   file_exists ${thumb}
   obs_id="C170323_domeflat_K_CALRED"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
   obs_id="C120213_0004_REJECT"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
   obs_id="C100521_domeflat_K_CALRED"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
+}
+
+check_ingest_modify_neossat() {
+  echo 'check_ingest_modify'
+  failure_log="${RUN_ROOT}/ingest_modify_neossat/logs/failure_log.txt"
+  success_log="${RUN_ROOT}/ingest_modify_neossat/logs/success_log.txt"
+  fname="2019213215700"
+  xml="${RUN_ROOT}/ingest_modify_neossat/logs/${fname}.fits.xml"
+  file_is_not_zero ${failure_log}
+  file_is_zero ${success_log}
+  file_exists ${xml}
+  obs_id="2019213215700"
+  check_observation_in_db NEOSSAT ${obs_id} neossat_run_int
 }
 
 check_client_ingest() {
@@ -228,9 +241,9 @@ check_client_ingest() {
   xml="${RUN_ROOT}/ingest/VLASS1.1.T01t01.J000228-363000.xml"
   file_exists ${xml}
   obs_id="VLASS1.1.T01t01.J000228-363000"
-  check_observation_in_db VLASS ${obs_id}
+  # check_observation_in_db VLASS ${obs_id} vlass_run_int
   obs_id="VLASS1.1.T10t12.J075402-033000"
-  check_observation_in_db VLASS ${obs_id}
+  # check_observation_in_db VLASS ${obs_id} vlass_run_int
 }
 
 check_client_ingest_modify() {
@@ -247,7 +260,7 @@ check_client_ingest_modify() {
   file_exists ${prev}
   file_exists ${thumb}
   obs_id="C170323_domeflat_K_CALRED"
-  check_observation_in_db OMM ${obs_id}
+  check_observation_in_db OMM ${obs_id} omm_run_int
 }
 
 check_todo_parameter() {
@@ -265,7 +278,7 @@ check_client_visit() {
   obs_id="VLASS1.1.T01t01.J000228-363000"
   file_is_not_zero ${failure_log}
   file_is_zero ${success_log}
-  check_observation_in_db VLASS ${obs_id}
+  check_observation_in_db VLASS ${obs_id} vlass_run_int
 }
 
 check_client_visit_cgps() {
@@ -361,7 +374,7 @@ build_int_common()
   copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
   copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
   copy_pip_install ${TOOLS_ROOT}/caom2 caom2tools/caom2 caom2
-  for container in $INT_COMMON $INT_MATPLOTLIB
+  for container in $INT_COMMON $INT_MATPLOTLIB $INT_PANDAS
   do
     echo "Build container ${container}"
     output="$(docker build -f ${I}/Dockerfile.${container} -t ${container} ./ 2>&1)"

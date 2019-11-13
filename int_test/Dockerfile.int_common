@@ -2,6 +2,7 @@ FROM opencadc/astropy:3.6-alpine
 
 RUN apk --no-cache add \
         bash \
+        coreutils \
         gcc \
         g++ \
 	libmagic \
@@ -18,11 +19,3 @@ RUN pip install cadcdata && \
 	pip install vos 
 
 WORKDIR /usr/src/app
-
-COPY ./caom2tools ./caom2tools
-RUN cd caom2tools && \
-        pip install ./caom2 && \
-        pip install ./caom2pipe && \
-        pip install ./caom2utils && \
-	cd ..
-

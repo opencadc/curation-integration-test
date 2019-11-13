@@ -3,7 +3,6 @@ FROM opencadc/matplotlib:3.6-alpine
 RUN apk --no-cache add bash \
     git \
     g++ \
-    imagemagick \
     libmagic
 
 RUN pip install cadcdata && \
@@ -21,13 +20,6 @@ RUN pip install flake8 && \
         pip install pytest && \
         pip install pytest-cov && \
         pip install pytest-runner
-
-COPY ./ ./caom2tools
-RUN cd caom2tools && \
-        pip install ./caom2 && \
-        pip install ./caom2pipe && \
-        pip install ./caom2utils && \
-        cd ..
 
 RUN apk --no-cache add wget
 

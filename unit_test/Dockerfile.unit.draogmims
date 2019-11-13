@@ -1,9 +1,16 @@
 FROM unit_common
 
-COPY ./ ./draogmims2caom2/
+COPY ./caom2tools_unit ./caom2tools
+RUN cd caom2tools && \
+        pip install ./caom2 && \
+        pip install ./caom2pipe && \
+        pip install ./caom2utils && \
+        cd ..
+
+COPY ./draogmims2caom2_unit ./draogmims2caom2/
 RUN pip install ./draogmims2caom2/ 
 
-COPY ./docker-entrypoint.sh /usr/src/app/draogmims2caom2
+COPY ./draogmims2caom2_unit/docker-entrypoint.sh /usr/src/app/draogmims2caom2
 
 ENTRYPOINT ["/usr/src/app/draogmims2caom2/docker-entrypoint.sh"]
 
