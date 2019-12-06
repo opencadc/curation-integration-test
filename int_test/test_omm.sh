@@ -66,6 +66,8 @@ omm_run_int_test_case()
     sudo rmdir ${run_dir}/metrics || exit $?
   fi
 
+  echo "Copy test_netrc to ${run_dir}"
+  cp ${RUN_ROOT}/test_netrc ${run_dir} || exit $?
   echo "docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1"
   output="$(docker run --rm -v ${run_dir}:${CONT_ROOT} omm_run_int omm_run 2>&1)"
   result=$?

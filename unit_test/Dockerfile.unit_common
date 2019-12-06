@@ -1,4 +1,4 @@
-FROM opencadc/astropy:3.6-alpine
+FROM opencadc/astropy
 
 RUN apk --no-cache add \
         bash \
@@ -8,8 +8,11 @@ RUN apk --no-cache add \
 
 RUN pip install cadcdata && \
         pip install cadctap && \
+	pip install caom2 && \
 	pip install caom2repo && \
+	pip install caom2utils && \
 	pip install ftputil && \
+	pip install pytz && \
 	pip install PyYAML && \
         pip install spherical-geometry && \
 	pip install vos 

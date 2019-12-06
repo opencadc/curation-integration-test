@@ -8,12 +8,14 @@ check_client_retries() {
   failure_log="${_run_dir}/logs/failure_log.txt"
   success_log="${_run_dir}/logs/success_log.txt"
   retries_log="${_run_dir}/logs/retries.txt"
+  echo "check the first run of log files"
   file_is_zero ${failure_log}
   file_is_zero ${retries_log}
   file_is_zero ${success_log}
   rfailure_log="${_run_dir}/logs_0/failure_log.txt"
   rsuccess_log="${_run_dir}/logs_0/success_log.txt"
   rretries_log="${_run_dir}/logs_0/retries.txt"
+  echo "check the retry run of log files"
   file_is_zero ${rfailure_log}
   file_is_zero ${rretries_log}
   file_is_not_zero ${rsuccess_log}
@@ -21,11 +23,12 @@ check_client_retries() {
   file2_log="${_run_dir}/logs/C180108_0002_SCI.log"
   file1_retry_log="${_run_dir}/logs_0/B120402_domeflat_J_CALRED.log"
   file2_retry_log="${_run_dir}/logs_0/C180108_0002_SCI.log"
+  echo "check the individual observation log files"
   file_is_zero ${file1_log}
   file_is_zero ${file2_log}
   file_exists ${file2_retry_log}
   file_is_zero ${file1_retry_log}
-  # make sure there are not more retries than expected
+  echo "make sure there are not more retries than expected"
   unexpected_retry_log_dir1="${_run_dir}/logs_1"
   unexpected_retry_log_dir2="${_run_dir}/logs_0_0"
   file_exists ${unexpected_retry_log_dir1}

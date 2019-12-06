@@ -2,6 +2,8 @@
 
 . ${T}/common_test.sh || exit $?
 
+collection="vlass"
+
 setup(){
   build_int_common
 
@@ -102,10 +104,31 @@ test_vlass_state() {
   file_exists ${progress_log}
 }
 
+run_validate_test_case()
+{
+  echo "Run validate test case ..."
+  run_dir="${RUN_ROOT}/vlass_validate"
+  cleanup_files "${run_dir}/todo.txt"
+  cleanup_files "${run_dir}/logs/*.txt"
+  cleanup_files "${run_dir}/logs/*.log"
+  cleanup_metrics "${run_dir}"
+
+  output=$(docker run --rm -v ${run_dir}:${CONT_ROOT} ${collection}_run_int ${collection}_validate 2>&1)"
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    echo "${output}"
+    echo "${collection}_validate failed with result status ${result} for ${1}"
+    exit 1
+  fi
+  file_is_not_zero ${run_dir}/todo.txt
+}
+
 run_vlass_tests() {
   test_vlass_client
   test_vlass_visit
   test_vlass_state
+  run_validate_test_case
 }
 
 setup

@@ -1,11 +1,7 @@
 FROM unit_common
 
-COPY ./caom2tools_unit ./caom2tools
-RUN cd caom2tools && \
-        pip install ./caom2 && \
-        pip install ./caom2pipe && \
-        pip install ./caom2utils && \
-        cd ..
+COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2pipe 
 
 COPY ./cgps2caom2_unit ./cgps2caom2/
 RUN pip install ./cgps2caom2/ 

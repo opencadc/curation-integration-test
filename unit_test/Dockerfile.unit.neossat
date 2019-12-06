@@ -1,11 +1,7 @@
 FROM unit_matplotlib
 
-COPY ./caom2tools_unit ./caom2tools
-RUN cd caom2tools && \
-        pip install ./caom2 && \
-        pip install ./caom2pipe && \
-        pip install ./caom2utils && \
-        cd ..
+COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2pipe 
 
 COPY ./neossat2caom2_unit ./neossat2caom2/
 COPY ./neossat2caom2_unit/scripts/docker-entrypoint.sh /usr/src/app/neossat2caom2/

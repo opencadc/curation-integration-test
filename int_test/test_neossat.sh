@@ -31,12 +31,7 @@ run_int_test_case()
   cleanup_files "${run_dir}/logs/*.log"
   cleanup_files "${run_dir}/*.xml"
   cleanup_files "${run_dir}/*.jpg"
-  if [[ -e ${run_dir}/metrics ]]
-  then
-    echo "clean up metrics directory"
-    cleanup_files "${run_dir}/metrics/*.yml"
-    sudo rmdir ${run_dir}/metrics || exit $?
-  fi
+  cleanup_metrics "${run_dir}"
 
   echo "Get proxy cert"
   cp $HOME/.ssl/cadcproxy.pem ${run_dir} || exit $?
@@ -66,12 +61,36 @@ run_int_test_case()
   check_${1} "${output}"
 }
 
+run_validate_test_case()
+{
+  echo "Run validate test case ..."
+  run_dir="${RUN_ROOT}/neoss_validate"
+  cleanup_files "${run_dir}/todo.txt"
+  cleanup_files "${run_dir}/logs/*.txt"
+  cleanup_files "${run_dir}/logs/*.log"
+  cleanup_metrics "${run_dir}"
+
+  output=$(docker run --rm -v ${run_dir}:${CONT_ROOT} ${collection}_run_int ${collection}_validate 2>&1)"
+  result=$?
+  if [[ ${result} -ne 0 ]]
+  then
+    if [[ ${ii} != "failures" ]]
+    then
+      echo "${output}"
+      echo "${collection}_run failed with result status ${result} for ${1}"
+      exit 1
+    fi
+  fi
+  file_is_not_zero ${run_dir}/todo.txt
+}
+
 run_tests() {
   # test those permutations that don't support the command-line parameter
   for ii in ingest_modify_${collection}
   do
     run_int_test_case "${ii}"
   done
+  run_validate_test_case
 }
 
 setup

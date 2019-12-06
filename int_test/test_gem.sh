@@ -1,4 +1,5 @@
 #!/bin/bash
+IMAGE="gem_run_int"
 
 . ${T}/common_test.sh || exit $?
 
@@ -60,7 +61,7 @@ setup()
   cp ${GEM_ROOT}/gem2caom2/tests/data/from_paul.txt ${RUN_ROOT}/gem2caom2
   
   echo "Build gem container ..."
-  output=$(docker build -f ./Dockerfile.gem -t gem_run_int ./ 2>&1 || exit $?)
+  output=$(docker build -f ./Dockerfile.gem -t ${IMAGE} ./ 2>&1 || exit $?)
   result=$?
   if [[ ${result} -ne 0 ]]
   then
@@ -73,8 +74,8 @@ setup()
 setup
 run_test_gem
 check_client_gem ${RUN_ROOT}/visit_gem
-check_observation_in_db GEMINI GS-2017A-Q-58-66-027
-check_observation_in_db GEMINI GS-2008A-C-5-35-002
+check_observation_in_db GEMINI GS-2017A-Q-58-66-027 ${IMAGE}
+check_observation_in_db GEMINI GS-2008A-C-5-35-002 ${IMAGE}
 msg=$(echo -n "$(basename $0) Success at: " $(date))
 echo $msg
 echo $msg >> $I/execution_log.txt

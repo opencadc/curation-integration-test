@@ -4,7 +4,6 @@ ROOT_DIR="/Volumes/Development"
 DEV_DIR="${ROOT_DIR}/dev"
 RUN_ROOT=${ROOT_DIR}/test/int_test
 ACTUAL=${RUN_ROOT}/actual
-TOOLS_ROOT=${DEV_DIR}/caom2tools
 
 CGPS_ROOT=${DEV_DIR}/cgps2caom2
 DRAOST_ROOT=${DEV_DIR}/draost2caom2
@@ -18,7 +17,7 @@ CONT_ROOT="/usr/src/app"
 UNIT_COMMON="unit_common"
 UNIT_MATPLOTLIB="unit_matplotlib"
 UNIT_PANDAS="unit_pandas"
-UNIT_CAOM2TOOLS="unit_caom2tools"
+UNIT_CAOM2PIPE="unit_caom2pipe"
 INT_COMMON="int_common"
 INT_MATPLOTLIB="int_matplotlib"
 INT_PANDAS="int_pandas"
@@ -105,7 +104,8 @@ check_observation_in_db() {
     echo "${output}"
     exit 1
   fi
-  output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} ${image} python compare_observations.py ${expected} ${actual} 2>&1)
+  echo "docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} ${image} python compare_observations.py ${expected} ${actual} 2>&1"
+  # output=$(docker run --rm -v ${RUN_ROOT}:${CONT_ROOT} ${image} python compare_observations.py ${expected} ${actual} 2>&1)
   if [[ ${result} -ne 0 ]]
   then
     echo "compare_observations execution failed for ${obs_id}"
@@ -137,13 +137,13 @@ check_complete() {
 }
 
 check_failures() {
-  echo 'check_failures'
+  echo "check_failures"
   failure_log="${RUN_ROOT}/failures/logs/failure_log.txt"
   file_is_zero ${failure_log}
 }
 
 check_scrape() {
-  echo 'check_scrape'
+  echo "check_scrape"
   echo "${1}"
   failure_log="${RUN_ROOT}/scrape/logs/failure_log.txt"
   success_log="${RUN_ROOT}/scrape/logs/success_log.txt"
@@ -202,7 +202,7 @@ check_ingest_modify_local() {
 }
 
 check_ingest_modify() {
-  echo 'check_ingest_modify'
+  echo "check_ingest_modify"
   failure_log="${RUN_ROOT}/ingest_modify/logs/failure_log.txt"
   success_log="${RUN_ROOT}/ingest_modify/logs/success_log.txt"
   fname="C170323_domeflat_K_CALRED"
@@ -223,31 +223,31 @@ check_ingest_modify() {
 }
 
 check_ingest_modify_neossat() {
-  echo 'check_ingest_modify'
+  echo "check_ingest_modify_neossat"
   failure_log="${RUN_ROOT}/ingest_modify_neossat/logs/failure_log.txt"
   success_log="${RUN_ROOT}/ingest_modify_neossat/logs/success_log.txt"
   fname="2019213215700"
   xml="${RUN_ROOT}/ingest_modify_neossat/logs/${fname}.fits.xml"
   file_is_not_zero ${failure_log}
   file_is_zero ${success_log}
-  file_exists ${xml}
+  file_is_zero ${xml}
   obs_id="2019213215700"
   check_observation_in_db NEOSSAT ${obs_id} neossat_run_int
 }
 
 check_client_ingest() {
-  echo 'check_client_ingest'
+  echo "check_client_ingest"
   fname=" VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits"
   xml="${RUN_ROOT}/ingest/VLASS1.1.T01t01.J000228-363000.xml"
   file_exists ${xml}
   obs_id="VLASS1.1.T01t01.J000228-363000"
-  # check_observation_in_db VLASS ${obs_id} vlass_run_int
+  check_observation_in_db VLASS ${obs_id} vlass_run_int
   obs_id="VLASS1.1.T10t12.J075402-033000"
-  # check_observation_in_db VLASS ${obs_id} vlass_run_int
+  check_observation_in_db VLASS ${obs_id} vlass_run_int
 }
 
 check_client_ingest_modify() {
-  echo 'check_client_ingest_modify'
+  echo "check_client_ingest_modify"
   failure_log="${RUN_ROOT}/client_ingest_modify/logs/failure_log.txt"
   success_log="${RUN_ROOT}/client_ingest_modify/logs/success_log.txt"
   fname="C170323_domeflat_K_CALRED"
@@ -264,7 +264,7 @@ check_client_ingest_modify() {
 }
 
 check_todo_parameter() {
-  echo 'check_todo_parameter'
+  echo "check_todo_parameter"
   failure_log="${RUN_ROOT}/todo_parameter/logs/abc_failure_log.txt"
   success_log="${RUN_ROOT}/todo_parameter/logs/abc_success_log.txt"
   file_is_zero ${failure_log}
@@ -272,7 +272,7 @@ check_todo_parameter() {
 }
 
 check_client_visit() {
-  echo 'check_client_visit'
+  echo "check_client_visit"
   failure_log="${RUN_ROOT}/visit/logs/failure_log.txt"
   success_log="${RUN_ROOT}/visit/logs/success_log.txt"
   obs_id="VLASS1.1.T01t01.J000228-363000"
@@ -282,7 +282,7 @@ check_client_visit() {
 }
 
 check_client_visit_cgps() {
-  echo 'check_client_visit_cgps'
+  echo "check_client_visit_cgps"
   failure_log="${RUN_ROOT}/visit_cgps/logs/failure_log.txt"
   success_log="${RUN_ROOT}/visit_cgps/logs/success_log.txt"
   obs_id="VLASS1.1.T01t01.J000228-363000"
@@ -371,9 +371,7 @@ docker_cleanup() {
 build_int_common()
 {
   echo "Copy common source"
-  copy_pip_install ${TOOLS_ROOT}/caom2pipe caom2tools/caom2pipe caom2pipe
-  copy_pip_install ${TOOLS_ROOT}/caom2utils caom2tools/caom2utils caom2utils
-  copy_pip_install ${TOOLS_ROOT}/caom2 caom2tools/caom2 caom2
+  copy_pip_install ${D}/caom2pipe caom2pipe caom2pipe
   for container in $INT_COMMON $INT_MATPLOTLIB $INT_PANDAS
   do
     echo "Build container ${container}"
@@ -388,4 +386,13 @@ build_int_common()
   done
 }
 
-
+cleanup_metrics()
+{
+  _metrics_dir="${1}/metrics"
+  if [[ -e ${_metrics_dir} ]]
+  then
+    echo "clean up metrics directory"
+    cleanup_files "${_metrics_dir}/*.yml"
+    sudo rmdir ${_metrics_dir} || exit $?
+  fi
+}

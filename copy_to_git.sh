@@ -16,10 +16,12 @@ cp $U/Dockerfile.* $UNIT_DEST || exit $?
 echo "Copy expected observations."
 cp $I/expected/* $INT_DEST/expected || exit $?
 
-for ii in client_ingest_modify failures ingest ingest_modify ingest_modify_local ingest_modify_neossat retries scrape scrape_modify store_ingest_modify todo_parameter visit visit_cgps visit_gem vlass_state; do
+for ii in client_ingest_modify failures ingest ingest_modify ingest_modify_local ingest_modify_neossat neossat_validate retries scrape scrape_modify store_ingest_modify todo_parameter visit visit_cgps visit_gem vlass_state vlass_validate; do
     echo $ii
     mkdir -p $INT_DEST/$ii || exit $?
-    cp $I/$ii/config.yml $INT_DEST/$ii || exit $?
+    if [[ -e $I/$ii/config.yml ]]; then
+      cp $I/$ii/config.yml $INT_DEST/$ii || exit $?
+    fi
     if [[ -e $I/$ii/state.yml ]]; then
         cp $I/$ii/state.yml $INT_DEST/$ii || exit $?
     fi

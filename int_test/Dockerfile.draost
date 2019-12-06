@@ -1,11 +1,7 @@
 FROM int_common
 
-COPY ./caom2tools ./caom2tools
-RUN cd caom2tools && \
-        pip install ./caom2 && \
-        pip install ./caom2pipe && \
-        pip install ./caom2utils && \
-        cd ..
+COPY ./caom2pipe ./caom2pipe
+RUN pip install ./caom2pipe
 
 COPY ./draost2caom2 ./draost2caom2/
 RUN pip install ./draost2caom2/ 

@@ -1,0 +1,11 @@
+FROM unit_matplotlib
+
+RUN pip install pytz
+
+COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2pipe
+
+COPY ./docker-entrypoint.sh /usr/src/app/caom2pipe/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/src/app/caom2pipe/docker-entrypoint.sh"]
+

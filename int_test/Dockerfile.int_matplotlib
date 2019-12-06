@@ -1,17 +1,29 @@
-FROM opencadc/matplotlib:3.6-alpine
+FROM opencadc/matplotlib
 
 RUN apk --no-cache add bash \
     coreutils \
     git \
+    g++ \
     libmagic
 
 RUN pip install cadcdata && \
         pip install cadctap && \
+        pip install caom2 && \
         pip install caom2repo && \
+        pip install caom2utils && \
         pip install ftputil && \
+        pip install pytz && \
         pip install PyYAML && \
         pip install spherical-geometry && \
         pip install vos
 
 WORKDIR /usr/src/app
+
+RUN apk --no-cache add wget
+
+RUN oldpath=`pwd` && cd /tmp && \
+    wget http://www.eso.org/~fstoehr/footprintfinder.py && \
+    cp footprintfinder.py /usr/local/lib/python3.7/site-packages/footprintfinder.py && \
+    chmod 755 /usr/local/lib/python3.7/site-packages/footprintfinder.py && \
+    cd $oldpath
 
