@@ -1,18 +1,22 @@
 FROM unit_matplotlib
 RUN pip install bs4 
 
+COPY ./caom2tools_unit/caom2 ./caom2
+COPY ./caom2tools_unit/caom2utils ./caom2utils
 COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2
+RUN pip install ./caom2utils
 RUN pip install ./caom2pipe
 
 COPY ./vlass2caom2_unit ./vlass2caom2/
 RUN pip install ./vlass2caom2/ 
 
-COPY ./vlass2caom2_unit/data/ArchiveQuery-2018-08-15.csv /usr/src/
-COPY ./vlass2caom2_unit/data/rejected_file_names-2018-09-05.csv /usr/src/
-COPY ./vlass2caom2_unit/scripts/docker-entrypoint.sh /usr/src/app/vlass2caom2
-COPY ./vlass2caom2_unit/vlass2caom2/tests/data/config.yml /
-COPY ./vlass2caom2_unit/vlass2caom2/tests/data/todo.txt /usr/src/app/
-COPY ./vlass2caom2_unit/vlass2caom2/tests/data/state.yml /usr/src/app/
+RUN cp ./vlass2caom2/data/ArchiveQuery-2018-08-15.csv /usr/src/
+RUN cp ./vlass2caom2/data/rejected_file_names-2018-09-05.csv /usr/src/
+RUN cp ./vlass2caom2/scripts/docker-entrypoint.sh /usr/src/app/vlass2caom2
+RUN cp ./vlass2caom2/vlass2caom2/tests/data/config.yml /
+RUN cp ./vlass2caom2/vlass2caom2/tests/data/todo.txt /usr/src/app/
+RUN cp ./vlass2caom2/vlass2caom2/tests/data/state.yml /usr/src/app/
 
 ENTRYPOINT ["/usr/src/app/vlass2caom2/docker-entrypoint.sh"]
 

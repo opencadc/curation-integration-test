@@ -3,6 +3,11 @@ FROM int_pandas
 RUN apk --no-cache add imagemagick
 RUN pip install bs4
   
+COPY ./caom2tools/caom2 ./caom2
+COPY ./caom2tools/caom2utils ./caom2utils
+RUN pip install ./caom2
+RUN pip install ./caom2utils
+
 COPY ./caom2pipe ./caom2pipe
 RUN pip install ./caom2pipe
 

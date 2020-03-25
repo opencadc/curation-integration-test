@@ -1,13 +1,17 @@
 FROM unit_common
 
+COPY ./caom2tools_unit/caom2 ./caom2
+COPY ./caom2tools_unit/caom2utils ./caom2utils
 COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2
+RUN pip install ./caom2utils
 RUN pip install ./caom2pipe
 
 COPY ./vlite2caom2_unit ./vlite2caom2/
 RUN pip install ./vlite2caom2/ 
 
-COPY ./vlite2caom2_unit/scripts/docker-entrypoint.sh /usr/src/app/vlite2caom2
-COPY ./vlite2caom2_unit/scripts/config.yml /
+RUN cp ./vlite2caom2/scripts/docker-entrypoint.sh /usr/src/app/vlite2caom2
+RUN cp ./vlite2caom2/scripts/config.yml /
 
 ENTRYPOINT ["/usr/src/app/vlite2caom2/docker-entrypoint.sh"]
 

@@ -1,0 +1,48 @@
+FROM opencadc/astropy:4-3.7-alpine
+  
+RUN apk --no-cache add \
+        bash \
+        coreutils \
+        gcc \
+        g++ \
+        libmagic
+
+RUN pip install cadcdata && \
+        pip install cadctap && \
+        pip install caom2 && \
+        pip install caom2repo && \
+        pip install caom2utils && \
+        pip install deprecated && \
+        pip install ftputil && \
+        pip install importlib-metadata && \
+        pip install pytz && \
+        pip install PyYAML && \
+        pip install spherical-geometry && \
+        pip install vos
+
+WORKDIR /usr/src/app
+
+RUN pip install bs4
+
+RUN pip install flake8 && \
+        pip install mock && \
+        pip install pytest && \
+        pip install pytest-cov && \
+        pip install pytest-runner
+
+COPY ./caom2tools_unit/caom2 ./caom2
+COPY ./caom2tools_unit/caom2utils ./caom2utils
+COPY ./caom2pipe_unit ./caom2pipe
+RUN pip install ./caom2
+RUN pip install ./caom2utils
+RUN pip install ./caom2pipe
+
+COPY ./cfht2caom2_unit ./cfht2caom2
+RUN pip install ./cfht2caom2
+
+RUN cp ./cfht2caom2/scripts/docker-entrypoint.sh /usr/src/app/cfht2caom2
+RUN cp ./cfht2caom2/scripts/config.yml /config.yml
+RUN cp ./cfht2caom2/scripts/cache.yml /cache.yml
+
+ENTRYPOINT ["/usr/src/app/cfht2caom2/docker-entrypoint.sh"]
+

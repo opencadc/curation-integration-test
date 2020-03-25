@@ -1,12 +1,16 @@
 FROM unit_common
 
-COPY ./caom2pipe_unit ./caom2pipe
-RUN pip install ./caom2pipe 
+COPY ./caom2tools/caom2 ./caom2
+COPY ./caom2tools/caom2utils ./caom2utils
+COPY ./caom2pipe ./caom2pipe
+RUN pip install ./caom2
+RUN pip install ./caom2utils
+RUN pip install ./caom2pipe
 
-COPY ./drao26m2caom2_unit ./drao26m2caom2/
+COPY ./drao26m2caom2 ./drao26m2caom2/
 RUN pip install ./drao26m2caom2/ 
 
-COPY ./drao26m2caom2_unit/docker-entrypoint.sh /usr/src/app/drao26m2caom2
+RUN cp ./drao26m2caom2/docker-entrypoint.sh /usr/src/app/drao26m2caom2
 
 ENTRYPOINT ["/usr/src/app/drao26m2caom2/docker-entrypoint.sh"]
 

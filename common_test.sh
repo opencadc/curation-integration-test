@@ -307,29 +307,27 @@ cleanup_files() {
 # on a container
 copy_pip_install() {
   mkdir -p ${2} || exit $?
-  rm ${2}/*.py
-  rm ${2}/*.cfg
-  cleanup_files "${2}/*.md"
-  rm ${2}/${3}/*.py
+  if [[ -e ${2} ]]; then
+    cleanup_files ${2}/*.py
+    cleanup_files ${2}/*.cfg
+    cleanup_files ${2}/*.md
+    cleanup_files ${2}/${3}/*.py
+  fi
   cp ${1}/setup.py ${2} || exit $?
   cp ${1}/setup.cfg ${2} || exit $?
-  if [[ -e ${1}/README.rst ]]
-  then
+  if [[ -e ${1}/README.rst ]]; then
     cp ${1}/README.rst ${2} || exit $?
   fi
-  if [[ -e ${1}/README.md ]]
-  then
+  if [[ -e ${1}/README.md ]]; then
     cp ${1}/README.md ${2} || exit $?
   fi
   mkdir -p ${2}/${3} || exit $?
   cp ${1}/${3}/*.py ${2}/${3} || exit $?
-  if [[ -e ${1}/data ]]
-  then
+  if [[ -e ${1}/data ]]; then
     mkdir -p ${2}/data || exit $?
     cp ${1}/data/* ${2}/data || exit $?
   fi
-  if [[ -e ${1}/scripts ]]
-  then
+  if [[ -e ${1}/scripts ]]; then
     mkdir -p ${2}/scripts || exit $?
     cp ${1}/scripts/* ${2}/scripts || exit $?
   fi
@@ -344,7 +342,7 @@ docker_cleanup() {
   then
     for ii in ${output}
     do
-      docker rm ${ii} || exit $?
+      docker rm ${ii}
     done
   fi
 
@@ -353,7 +351,7 @@ docker_cleanup() {
   then
     for ii in ${output}
     do
-      docker rm ${ii} || exit $?
+      docker rm ${ii}
     done
   fi
 
@@ -363,7 +361,7 @@ docker_cleanup() {
   then
     for ii in ${output}
     do
-      docker rmi ${ii} || exit $?
+      docker rmi ${ii}
     done
   fi
 }
@@ -371,7 +369,16 @@ docker_cleanup() {
 build_int_common()
 {
   echo "Copy common source"
-  copy_pip_install ${D}/caom2pipe caom2pipe caom2pipe
+  # copy_pip_install ${D}/caom2tools/caom2 caom2 caom2
+  # copy_pip_install ${D}/caom2tools/caom2utils caom2utils caom2utils
+  # copy_pip_install ${D}/caom2pipe caom2pipe caom2pipe
+  # git clone file://${D}/caom2tools || exit $?
+  # git clone file://${D}/caom2pipe || exit $?
+  cd ${I}/caom2tools || exit $?
+  git pull origin master || exit $?
+  cd ${I}/caom2pipe || exit $?
+  git pull origin master || exit $?
+  cd ${I} || exit $?
   for container in $INT_COMMON $INT_MATPLOTLIB $INT_PANDAS
   do
     echo "Build container ${container}"

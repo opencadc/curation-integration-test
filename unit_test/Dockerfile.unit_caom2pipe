@@ -1,6 +1,9 @@
 FROM unit_matplotlib
 
-RUN pip install pytz
+COPY ./caom2tools_unit/caom2 ./caom2
+COPY ./caom2tools_unit/caom2utils ./caom2utils
+RUN pip install ./caom2
+RUN pip install ./caom2utils
 
 COPY ./caom2pipe_unit ./caom2pipe
 RUN pip install ./caom2pipe

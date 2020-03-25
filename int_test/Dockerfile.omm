@@ -27,7 +27,11 @@ RUN oldpath=`pwd` && cd /tmp \
 && cd $oldpath \
 && rm -Rf /tmp/fitscut*
 
+COPY ./caom2tools/caom2 ./caom2
+COPY ./caom2tools/caom2utils ./caom2utils
 COPY ./caom2pipe ./caom2pipe
+RUN pip install ./caom2
+RUN pip install ./caom2utils
 RUN pip install ./caom2pipe
  
 COPY ./omm2caom2/ ./omm2caom2/

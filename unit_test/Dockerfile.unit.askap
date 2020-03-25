@@ -1,12 +1,16 @@
 FROM unit_common
 
+COPY ./caom2tools_unit/caom2 ./caom2
+COPY ./caom2tools_unit/caom2utils ./caom2utils
 COPY ./caom2pipe_unit ./caom2pipe
-RUN pip install ./caom2pipe 
+RUN pip install ./caom2
+RUN pip install ./caom2utils
+RUN pip install ./caom2pipe
 
 COPY ./askap2caom2_unit ./askap2caom2
 RUN pip install ./askap2caom2
 
-COPY ./askap2caom2_unit/docker-entrypoint.sh /usr/src/app/askap2caom2
+# RUN cp ./askap2caom2/docker-entrypoint.sh /usr/src/app/askap2caom2
 
 ENTRYPOINT ["/usr/src/app/askap2caom2/docker-entrypoint.sh"]
 

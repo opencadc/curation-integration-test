@@ -4,18 +4,19 @@
 
 setup()
 {
-  build_int_common
+  if [[ ${run_common_setup} == "YES" ]]; then
+    build_int_common
+  fi
 
   # copy the latest version of caom2tools code that's required for a python
   # install - use the minimal amount of the repo contents
   echo "Copy the source code ..."
-  copy_pip_install ${OMM_ROOT} omm2caom2 omm2caom2
+  copy_pip_install "${OMM_ROOT}" omm2caom2 omm2caom2
 
   echo "Build omm container ..."
   output=$(docker build -f ./Dockerfile.omm -t omm_run_int ./ 2>&1 || exit $?)
   result=$?
-  if [[ ${result} -ne 0 ]]
-  then
+  if [[ ${result} -ne 0 ]]; then
     echo "${output}"
     echo "docker build failed for omm"
     exit 1
@@ -107,6 +108,7 @@ omm_run_todo_test_case() {
     result=$?
     if [[ ${result} -ne 255 ]]
     then
+      echo "${output}"
       echo "omm_run failed for ${ii}"
       exit 1
     fi
@@ -121,9 +123,10 @@ run_omm_tests() {
     omm_run_int_test_case "${ii}"
   done
   omm_run_single_test
-  omm_run_todo_test_case
+  # omm_run_todo_test_case
 }
 
+run_common_setup=${1:-YES}
 setup
 run_omm_tests
 
