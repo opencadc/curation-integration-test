@@ -32,7 +32,7 @@ do
   sudo rm *jpg 
   sudo rm *png 
   sudo rm *.fits* 
-  sudo docker build -f Dockerfile --build-arg OPENCADC_BRANCH=${opencadc_branch} --build-arg OPENCADC_REPO=${cadc_repo} --build-arg OMC_REPO=${omc_repo} -t ${collection} ./ || exit $?
+  sudo docker build -f Dockerfile --build-arg OPENCADC_BRANCH=${opencadc_branch} --build-arg OPENCADC_REPO=${cadc_repo} -t ${collection} ./ || exit $?
 
   echo "::: build ingest config"
   cp $HOME/.ssl/cadcproxy.pem . || exit $?

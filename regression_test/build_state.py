@@ -8,7 +8,8 @@ COLLECTION_KEYS = {
         'gem': 'gemini_bookmark',
         'dao': 'dao_timestamp',
         'neossat': 'neossat_timestamp',
-        'cfht': 'cfht_timestamp'
+        'cfht': 'cfht_timestamp',
+        'vlass': 'vlass_timestamp'
 }
 collection_key = COLLECTION_KEYS.get(collection, f'{collection}_bookmark')
 
