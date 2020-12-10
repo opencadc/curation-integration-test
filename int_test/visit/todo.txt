@@ -1,2 +1,0 @@
-https://archive-new.nrao.edu/vlass/quicklook/VLASS1.1/T01t01/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.rms.subim.fits
-https://archive-new.nrao.edu/vlass/quicklook/VLASS1.1/T01t01/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1/VLASS1.1.ql.T01t01.J000228-363000.10.2048.v1.I.iter1.image.pbcor.tt0.subim.fits
