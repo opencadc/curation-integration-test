@@ -1,0 +1,13 @@
+working_directory: /usr/src/app/integration_test/mock_test/data/execution
+proxy_file_name: /usr/src/app/integration_test/mock_test/data/execution/cadcproxy.pem
+state_file_name: state.yml
+cache_file_name: cache.yml
+use_local_files: True
+data_sources:
+  - /usr/src/app/integration_test/mock_test/data/test_files
+logging_level: INFO
+collection: GEMINI
+task_types: 
+  - ingest
+features:
+  supports_latest_client: True

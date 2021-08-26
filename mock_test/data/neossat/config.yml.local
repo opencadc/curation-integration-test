@@ -1,0 +1,14 @@
+working_directory: /usr/src/app/integration_test/mock_test/data/execution
+proxy_file_name: /usr/src/app/integration_test/mock_test/data/execution/cadcproxy.pem
+state_file_name: state.yml
+collection: NEOSSAT
+logging_level: INFO
+task_types:
+  - store
+  - ingest
+  - modify
+features:
+  supports_latest_client: True
+data_sources:
+  - /usr/src/app/integration_test/mock_test/data/test_files
+use_local_files: True
