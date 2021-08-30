@@ -102,9 +102,23 @@ TestInputs = namedtuple(
     'cache_file, '
     'test_file, '
     'obs_xml, '
-    'input_dir',
+    'input_dir, '
+    'test_uri, '
+    'collection',
 )
 INPUTS = {
+    'OMM_TODO_LOCAL': TestInputs(
+        '/usr/src/app/omm2caom2/omm2caom2',
+        Path(f'{TEST_DIR}/omm/config.yml.local'),
+        None,
+        None,
+        None,
+        Path(f'{TEST_DIR}/omm/C170324_0054_SCI.fits.gz'),
+        None,
+        None,
+        'cadc:OMM/C170324_0054_SCI.fits.gz',
+        'OMM',
+    ),
     'GEM_STATE': TestInputs(
         '/usr/src/app/gem2caom2/gem2caom2',
         Path(TEST_DIR / 'gemini/config.yml.state'),
@@ -114,12 +128,16 @@ INPUTS = {
         None,
         None,
         Path(TEST_DIR / 'gemini'),
+        None,
+        None,
     ),
     'VLASS_STATE': TestInputs(
         '/usr/src/app/vlass2caom2/vlass2caom2',
         Path(f'{TEST_DIR}/vlass/config.yml.state'),
         Path(f'{TEST_DIR}/vlass/state.yml'),
         'vlass_timestamp',
+        None,
+        None,
         None,
         None,
         None,
@@ -137,6 +155,8 @@ INPUTS = {
         ),
         Path(f'{TEST_DIR}/vlass/VLASS1.1.T01t01.J000228-363000.xml'),
         None,
+        None,
+        None,
     ),
     'GEM_TODO_LOCAL': TestInputs(
         '/usr/src/app/gem2caom2/gem2caom2',
@@ -147,6 +167,8 @@ INPUTS = {
         Path(TEST_DIR / 'gemini/S20191214S0301.fits'),
         None,
         Path(TEST_DIR / 'gemini'),
+        None,
+        None,
     ),
     'GEM_TODO': TestInputs(
         '/usr/src/app/gem2caom2/gem2caom2',
@@ -157,10 +179,14 @@ INPUTS = {
         Path(TEST_DIR / 'gemini/S20191214S0301.fits'),
         None,
         Path(TEST_DIR / 'gemini'),
+        None,
+        None,
     ),
     'DAO_TODO_VOS': TestInputs(
         '/usr/src/app/dao2caom2/dao2caom2',
         Path(f'{TEST_DIR}/dao/config.yml.vo'),
+        None,
+        None,
         None,
         None,
         None,
@@ -177,6 +203,8 @@ INPUTS = {
         None,
         None,
         None,
+        None,
+        None,
     ),
     'NEOSSAT_TODO_LOCAL': TestInputs(
         '/usr/src/app/neossat2caom2/neossat2caom2',
@@ -187,6 +215,8 @@ INPUTS = {
         Path(f'{TEST_DIR}/neossat/NEOS_SCI_2019213215700.fits'),
         None,
         None,
+        'cadc:NEOSSAT/NEOS_SCI_2019213215700.fits',
+        'NEOSSAT',
     ),
     'CFHT_TODO_LOCAL_MOVE': TestInputs(
         '/usr/src/app/cfht2caom2/cfht2caom2',
@@ -195,6 +225,8 @@ INPUTS = {
         None,
         Path(f'{TEST_DIR}/cfht/cache.yml'),
         Path(f'{TEST_DIR}/cfht/2460606o.fits.gz'),
+        None,
+        None,
         None,
         None,
     ),
@@ -820,83 +852,6 @@ def test_todo_local_move(
         del sys.modules['composable']
 
 
-@patch('caom2utils.fits2caom2.data_util.StorageClientWrapper')
-@patch('cadcutils.net.ws.WsCapabilities.get_access_url')
-@patch('caom2pipe.client_composable.ClientCollection')
-def test_neossat_todo_local(
-    caom_mock,
-    access_mock,
-    fits2caom2_mock,
-    test_input_name,
-):
-    if 'TODO_LOCAL' not in test_input_name:
-        return
-    test_input = INPUTS.get(test_input_name)
-    _cleanup()
-
-    shutil.copy(
-        test_input.test_file, TEST_DATA_DIR / 'NEOS_SCI_2019213215700.fits'
-    )
-    access_mock.return_value = 'https://localhost'
-
-    # make sure the working directory TEST_EXEC_DIR has the correct things
-    # in it
-    config_file_target = TEST_EXEC_DIR / 'config.yml'
-    shutil.copy(test_input.config_file, config_file_target)
-    with open(TEST_EXEC_DIR / 'cadcproxy.pem', 'w') as f:
-        f.write('test content')
-
-    getcwd_orig = os.getcwd
-    os.getcwd = Mock(return_value=TEST_EXEC_DIR)
-
-    # import the module for execution
-    sys.path.append(test_input.test_path)
-    test_module = import_module('composable')
-
-    caom_mock.return_value.data_client.info.side_effect = [
-        None,
-        FileInfo(
-            id='cadc:NEOSSAT/NEOS_SCI_2019213215700.fits',
-            md5sum='3d29f0edd984065a044d1376a11c6f08',
-        ),
-    ]
-    caom_mock.return_value.metadata_client.read.side_effect = [
-        None,
-        SimpleObservation(
-            'obs_id',
-            'NEOSSAT',
-            Algorithm(name='exposure'),
-        ),
-    ]
-
-    def _info(uri):
-        assert (
-            uri == 'cadc:NEOSSAT/NEOS_SCI_2019213215700.fits'
-        ), 'wrong info uri'
-        return FileInfo(
-            id=uri,
-            md5sum='abc',
-            size=42,
-        )
-    fits2caom2_mock.return_value.info.side_effect = _info
-
-    try:
-        test_result = test_module._run()
-        assert test_result is not None, f'expect a result {test_input_name}'
-        assert test_result == 0, f'wrong test result {test_input_name}'
-        assert (
-            caom_mock.return_value.data_client.put.called
-        ), f'{test_input_name} put not called'
-        caom_mock.return_value.data_client.put.assert_called_with(
-            '/usr/src/app/integration_test/mock_test/data/test_files',
-            'cadc:NEOSSAT/NEOS_SCI_2019213215700.fits',
-            None,
-        ), f'{test_input_name} wrong put args'
-    finally:
-        os.getcwd = getcwd_orig
-        del sys.modules['composable']
-
-
 @patch('caom2utils.fits2caom2.get_external_headers')
 @patch('cadctap.CadcTapClient')
 @patch('caom2pipe.manage_composable.query_endpoint')
@@ -1289,6 +1244,71 @@ def test_gem_todo(
         del sys.modules['composable']
 
 
+@patch('caom2utils.fits2caom2.data_util.StorageClientWrapper')
+@patch('cadcutils.net.ws.WsCapabilities.get_access_url')
+@patch('caom2pipe.client_composable.ClientCollection')
+def test_todo_local_common(
+    caom_mock,
+    access_mock,
+    fits2caom2_mock,
+    test_input_name,
+):
+    if test_input_name not in ['OMM_TODO_LOCAL', 'NEOSSAT_TODO_LOCAL']:
+        return
+    test_input = INPUTS.get(test_input_name)
+    _cleanup()
+    _setup(test_input, local=True)
+
+    access_mock.return_value = 'https://localhost'
+
+    getcwd_orig = os.getcwd
+    os.getcwd = Mock(return_value=TEST_EXEC_DIR)
+
+    # import the module for execution
+    sys.path.append(test_input.test_path)
+    test_module = import_module('composable')
+
+    caom_mock.return_value.data_client.info.side_effect = [
+        None,
+        FileInfo(
+            id=test_input.test_uri,
+            md5sum='3d29f0edd984065a044d1376a11c6f08',
+        ),
+    ]
+    caom_mock.return_value.metadata_client.read.side_effect = [
+        None,
+        SimpleObservation(
+            'obs_id', test_input.collection, Algorithm(name='exposure'),
+        ),
+    ]
+
+    def _info(uri):
+        assert (
+                uri == test_input.test_uri
+        ), 'wrong info uri'
+        return FileInfo(
+            id=uri,
+            md5sum='abc',
+            size=42,
+        )
+    fits2caom2_mock.return_value.info.side_effect = _info
+
+    try:
+        test_result = test_module._run()
+        assert test_result is not None, f'expect a result {test_input_name}'
+        assert test_result == 0, f'wrong test result {test_input_name}'
+        assert (
+            caom_mock.return_value.data_client.put.called
+        ), f'{test_input_name} put not called'
+        caom_mock.return_value.data_client.put.assert_called_with(
+            '/usr/src/app/integration_test/mock_test/data/test_files',
+            test_input.test_uri,
+            None,
+        ), f'{test_input_name} wrong put args'
+    finally:
+        os.getcwd = getcwd_orig
+
+
 def _cleanup():
     # make sure the working directory TEXT_EXEC_DIR has nothing in it
     for d in [TEST_EXEC_DIR, TEST_DATA_DIR]:
@@ -1303,7 +1323,7 @@ def _cleanup():
                 child.unlink()
 
 
-def _setup(test_input):
+def _setup(test_input, local=False):
     # make sure the working directory TEST_EXEC_DIR has the correct things
     # in it
     if test_input.config_file is not None:
@@ -1328,5 +1348,10 @@ def _setup(test_input):
 
     with open(TEST_EXEC_DIR / 'cadcproxy.pem', 'w') as f:
         f.write('test content')
+
+    if test_input.test_file is not None and local:
+        shutil.copy(
+            test_input.test_file, TEST_DATA_DIR / test_input.test_file.name
+        )
 
     return test_start_time, state_file_target
