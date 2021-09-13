@@ -21,7 +21,6 @@ config.proxy_file_name = 'cadcproxy.pem'
 config.task_types = [mc.TaskType.INGEST]
 config.use_local_files = False
 config.logging_level = logging.INFO
-config.features.supports_latest_caom = True
 if collection == 'dao':
     config.tap_id = 'ivo://cadc.nrc.ca/ad'
 mc.Config.write_to_file(config)

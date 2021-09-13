@@ -1,2 +1,6 @@
 pytest test_integration.py::test_todo_local_common[NEOSSAT_TODO_LOCAL]
 pytest test_integration.py::test_todo_local_common[OMM_TODO_LOCAL]
+pytest test_integration.py::test_omm_retry[OMM_RETRY]
+pytest test_integration.py::test_gem_state[GEM_STATE]
+pytest test_integration.py::test_gem_todo[GEM_TODO]
+pytest test_integration.py::test_gem_todo_local[GEM_TODO_LOCAL]

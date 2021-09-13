@@ -107,6 +107,18 @@ TestInputs = namedtuple(
     'collection',
 )
 INPUTS = {
+    'OMM_RETRY': TestInputs(
+        '/usr/src/app/omm2caom2/omm2caom2',
+        Path(f'{TEST_DIR}/omm/config.yml.retry'),
+        None,
+        None,
+        None,
+        Path(f'{TEST_DIR}/omm/C170324_0054_SCI.fits.gz'),
+        Path(f'{TEST_DIR}/omm/C170324_0054.xml'),
+        None,
+        'cadc:OMM/C170324_0054_SCI.fits.gz',
+        'OMM',
+    ),
     'OMM_TODO_LOCAL': TestInputs(
         '/usr/src/app/omm2caom2/omm2caom2',
         Path(f'{TEST_DIR}/omm/config.yml.local'),
@@ -1307,6 +1319,133 @@ def test_todo_local_common(
         ), f'{test_input_name} wrong put args'
     finally:
         os.getcwd = getcwd_orig
+
+
+@patch('caom2utils.fits2caom2.data_util.StorageClientWrapper')
+@patch('cadcutils.net.ws.WsCapabilities.get_access_url')
+@patch('caom2pipe.client_composable.ClientCollection')
+def test_omm_retry(
+    caom_mock,
+    access_mock,
+    fits2caom2_mock,
+    test_input_name,
+):
+    if 'OMM_RETRY' != test_input_name:
+        return
+    access_mock.return_value = 'https://localhost'
+    test_input = INPUTS.get(test_input_name)
+    _cleanup()
+
+    getcwd_orig = os.getcwd
+    os.getcwd = Mock(return_value=TEST_EXEC_DIR)
+
+    _setup(test_input)
+    shutil.copy(f'{TEST_DIR}/vlass/footprintfinder.py', TEST_EXEC_DIR)
+    retry_fqn = Path(f'{TEST_EXEC_DIR.as_posix()}_0')
+
+    todo_fqn = TEST_EXEC_DIR / 'todo.txt'
+    with open(todo_fqn, 'w') as f1:
+        f1.write(f'{test_input.test_file.name}\n')
+
+    caom_mock.return_value.data_client.info.side_effect = [
+        None,
+        FileInfo(
+            id=test_input.test_uri,
+            md5sum='3d29f0edd984065a044d1376a11c6f08',
+        ),
+        FileInfo(
+            id=test_input.test_uri,
+            md5sum='3d29f0edd984065a044d1376a11c6f08',
+        ),
+        FileInfo(
+            id=test_input.test_uri,
+            md5sum='3d29f0edd984065a044d1376a11c6f08',
+        ),
+    ]
+
+    test_obs = mc.read_obs_from_file(test_input.obs_xml.as_posix())
+    caom_mock.return_value.metadata_client.read.side_effect = [
+        None,
+        SimpleObservation(
+            'obs_id', test_input.collection, Algorithm(name='exposure'),
+        ),
+        test_obs,
+        test_obs,
+    ]
+
+    caom_mock.return_value.metadata_client.update.side_effect = [
+        mc.CadcException('pretend there is a timeout'),
+        None,
+        None,
+        None,
+    ]
+
+    test_exec_fqn = Path(TEST_EXEC_DIR / 'C170324_0054')
+
+    def _get_mock(ignore, uri):
+        assert uri == test_input.test_uri, 'wrong uri'
+        assert ignore == test_exec_fqn.as_posix(), 'wrong working directory'
+        shutil.copy(test_input.test_file, test_exec_fqn)
+    caom_mock.return_value.data_client.get.side_effect = _get_mock
+
+    def _info(uri):
+        return FileInfo(
+            id=uri,
+            md5sum='abc',
+            size=42,
+        )
+    fits2caom2_mock.return_value.info.side_effect = _info
+
+    def _get_head(uri):
+        assert uri == test_input.test_uri, 'wrong get_head parameter'
+        return caom2utils.data_util.get_local_file_headers(
+            test_input.test_file.as_posix()
+        )
+    fits2caom2_mock.return_value.get_head.side_effect = _get_head
+
+    # import the module for execution
+    sys.path.append(test_input.test_path)
+    test_module = import_module('composable')
+
+    try:
+        test_result = test_module._run()
+        assert test_result is not None, f'expect a result {test_input_name}'
+        # expect a non-zero return, because evidence of the first failure
+        # is preserved even through the retry
+        assert test_result == -1, f'wrong test result {test_input_name}'
+        assert (
+            caom_mock.return_value.data_client.get.call_count == 2
+        ), 'wrong get call count'
+        assert retry_fqn.exists(), 'expect directory to exist'
+        assert retry_fqn.is_dir(), 'expect it to be a directory'
+        assert (
+                caom_mock.return_value.data_client.put.call_count == 2
+        ), 'wrong put call count'
+        put_calls = [
+            call(
+                test_exec_fqn.as_posix(),
+                'cadc:OMM/C170324_0054_SCI_prev_256.jpg',
+                None,
+            ),
+            call(
+                test_exec_fqn.as_posix(),
+                'cadc:OMM/C170324_0054_SCI_prev.jpg',
+                None,
+            ),
+        ]
+        caom_mock.return_value.data_client.put.assert_has_calls(
+            put_calls
+        ), 'wrong put calls'
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        raise e
+    finally:
+        os.getcwd = getcwd_orig
+        if retry_fqn.exists():
+            logging.error(f'Cleaning up {retry_fqn.as_posix()}')
+            for child in retry_fqn.iterdir():
+                child.unlink()
+            retry_fqn.rmdir()
 
 
 def _cleanup():

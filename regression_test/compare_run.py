@@ -28,7 +28,7 @@ with open('/usr/src/app/logs/success_log.txt', 'r') as f:
         print(f'Working with {obs_id}')
 
         expected_fqn = f'/usr/src/app/expected.{obs_id}.xml'
-        actual_fqn = f'/usr/src/app/{obs_id}.fits.xml'
+        actual_fqn = f'/usr/src/app/logs/{obs_id}.xml'
         round_trip_fqn = f'/usr/src/app/round_trip.{obs_id}.xml'
         print(f'::: read obs from file {actual_fqn}')
         actual_obs = mc.read_obs_from_file(actual_fqn)

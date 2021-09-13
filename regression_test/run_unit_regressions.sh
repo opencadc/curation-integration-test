@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # COLLECTIONS=( neossat gem omm vlass askap draost cgps vlite cfht dao )
-COLLECTIONS=( neossat gem omm vlass draost cgps cfht dao )
+COLLECTIONS=( neossat gem omm vlass draost cgps cfht dao phangs )
 
 # provide a collection name as a parameter to 'run just one' set of
 # unit tests
@@ -12,8 +12,8 @@ else
   test_set=( ${COLLECTIONS[@]} )
 fi
 
-cadc_repo="SharonGoliath"
-omc_repo="SharonGoliath"
+cadc_repo="opencadc"
+omc_repo="opencadc"
 opencadc_branch="master"
 
 mkdir -p executions || exit $?
