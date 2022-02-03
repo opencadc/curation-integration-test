@@ -11,6 +11,7 @@
 """
 import io
 import logging
+import os
 import sys
 from astropy.table import Table
 from cadcutils import net
@@ -19,8 +20,10 @@ from cadctap import CadcTapClient
 from caom2repo import CAOM2RepoClient
 from caom2pipe import client_composable as clc
 from caom2pipe import manage_composable as mc
+from does_collection_clean_up import question
 
 collection = sys.argv[1].upper()
+tap_resource_id = None
 if collection == 'NEOSSAT':
     service = 'shared'
     archive = 'NEOSSAT'
@@ -31,14 +34,24 @@ elif collection == 'GEM':
 elif collection == 'VLASS':
     service = 'cirada'
     archive = 'VLASS'
+elif collection == 'WALLABY':
+    tap_resource_id = 'ivo://cadc.nrc.ca/sc2tap'
+    caom_resource_id = 'ivo://cadc.nrc.ca/sc2repo'
+    service = 'shared'
+    archive = 'WALLABY'
 else:
     service = collection.lower()
     archive = collection
 proxy_fqn = '/usr/src/app/cadcproxy.pem'
 subject = net.Subject(certificate=proxy_fqn)
 ad_client = CadcTapClient(subject, resource_id='ivo://cadc.nrc.ca/ad')
-ops_client = CadcTapClient(subject, resource_id=f'ivo://cadc.nrc.ca/ams/{service}')
-caom_client = CAOM2RepoClient(subject, resource_id='ivo://cadc.nrc.ca/ams')
+if tap_resource_id is None:
+    ops_client = CadcTapClient(subject, resource_id=f'ivo://cadc.nrc.ca/ams/{service}')
+    caom_client = CAOM2RepoClient(subject, resource_id='ivo://cadc.nrc.ca/ams')
+else:
+    ops_client = CadcTapClient(subject, resource_id=tap_resource_id)
+    caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
+cleans_up = question(collection.lower())
 
 print(':::1 - Find the name of a file to test with.')
 ops_query = f"SELECT TOP 1 O.observationID, A.uri " \
@@ -67,15 +80,23 @@ mc.write_obs_to_file(obs, obs_fqn)
 print(f':::2 - Get {f_name}')
 config = mc.Config()
 config.get_executors()
-data_client = CadcDataClient(subject)
+clients = clc.ClientCollection(config)
 metrics = mc.Metrics(config)
-clc.data_get(data_client, '/usr/src/app', f_name, collection, metrics)
+data_location = '/usr/src/app'
+if cleans_up:
+    data_location = '/data'
+    for ii in ['/data/success', '/data/failure', '/data']:
+        with os.scandir(ii) as it:
+            for jj in it:
+                if not jj.is_dir():
+                    os.unlink(os.path.join(ii, jj))
+clients.data_client.get(data_location, uri)
 
 print(':::3 - Update config.yml to say task types are scrape and modify, and use local files.')
 config.task_types = [mc.TaskType.SCRAPE, mc.TaskType.MODIFY]
 config.use_local_files = True
 config.logging_level = logging.INFO
-config.data_sources = ['/usr/src/app']
+config.data_sources = [data_location]
 mc.Config.write_to_file(config)
 
 print(':::4 - Run the application.')

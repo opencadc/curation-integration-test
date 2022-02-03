@@ -2,12 +2,14 @@
 
 import io
 import logging
+import os
 import sys
 from astropy.table import Table
 from cadcutils import net, exceptions
 from cadctap import CadcTapClient
 from caom2repo import CAOM2RepoClient
 from caom2pipe import manage_composable as mc
+from does_collection_clean_up import question
 
 collection = sys.argv[1].upper()
 if collection == 'GEM':
@@ -44,13 +46,26 @@ with open('/usr/src/app/logs/success_log.txt', 'r') as f:
         print(f'::: read observation from sc2repo')
         obs_from_service = caom_client.read(collection, obs_id)
         mc.write_obs_to_file(obs_from_service, round_trip_fqn)
-        msg = mc.compare_observations(round_trip_fqn, expected_fqn)
-        print(msg)
+        try:
+            msg = mc.compare_observations(round_trip_fqn, expected_fqn)
+            print(msg)
+        except Exception as e:
+            print(f'comparison of {round_trip_fqn} and {expected_fqn} failed')
+            print(e)
         for plane in obs_from_service.planes.values():
             for artifact in plane.artifacts.values():
                 if '.fits' in artifact.uri:
                     f_name = mc.CaomName(uri=artifact.uri).file_name
                     todo_list.append(f_name)
+
+# check that no clean up occurred, because this was supposed to be
+# a SCRAPE + MODIFY configuration, where cleaning up doesn't make 
+# sense
+if question(collection):
+    for ii in ['/data/failure', '/data/success']:
+        listing = os.listdir(ii)
+        if len(listing) > 0:
+           assert False, f'Bad cleanup. There should be no files in {ii}.'
 
 print('::: update the config for ingest')
 

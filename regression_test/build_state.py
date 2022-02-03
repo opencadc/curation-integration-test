@@ -5,7 +5,7 @@ from caom2pipe import manage_composable as mc
 
 collection = sys.argv[1]
 COLLECTION_KEYS = {
-        'gem': 'gemini_bookmark',
+        'gem': 'gemini_timestamp',
         'dao': 'dao_timestamp',
         'neossat': 'neossat_timestamp',
         'cfht': 'cfht_timestamp',
