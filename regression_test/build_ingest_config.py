@@ -23,6 +23,8 @@ config.use_local_files = False
 config.logging_level = logging.INFO
 if collection == 'dao':
     config.tap_id = 'ivo://cadc.nrc.ca/ad'
+if collection == 'gem':
+    config.features.supports_latest_client = True
 mc.Config.write_to_file(config)
 
 sys.exit(0)

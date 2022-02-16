@@ -15,7 +15,6 @@ import os
 import sys
 from astropy.table import Table
 from cadcutils import net
-from cadcdata import CadcDataClient
 from cadctap import CadcTapClient
 from caom2repo import CAOM2RepoClient
 from caom2pipe import client_composable as clc
@@ -90,6 +89,8 @@ if cleans_up:
             for jj in it:
                 if not jj.is_dir():
                     os.unlink(os.path.join(ii, jj))
+if collection == 'GEM':
+    uri = uri.replace('gemini:GEM/', 'gemini:GEMINI/')
 clients.data_client.get(data_location, uri)
 
 print(':::3 - Update config.yml to say task types are scrape and modify, and use local files.')

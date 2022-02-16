@@ -85,11 +85,11 @@ do
     echo ""
     echo ""
     echo ""
-    echo ":::docker run ${collection}_run_state INGEST"
+    echo ":::docker run ${collection}_run_incremental INGEST"
     cp ../../does_collection_clean_up.py . || exit $?
     cp ../../build_state.py . || exit $?
     sudo docker run --rm -v ${PWD}:/usr/src/app/ ${data_mount} ${collection} python build_state.py ${collection} || exit $?
-    sudo docker run --rm -v ${PWD}:/usr/src/app/ ${data_mount} ${collection} ${collection}_run_state || exit $?
+    sudo docker run --rm -v ${PWD}:/usr/src/app/ ${data_mount} ${collection} ${collection}_run_incremental || exit $?
   fi
   cd .. || exit $?
   echo ":::${collection} Success at: $(date)" >> ../success_log.txt
