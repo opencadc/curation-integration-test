@@ -21,10 +21,15 @@ config.proxy_file_name = 'cadcproxy.pem'
 config.task_types = [mc.TaskType.INGEST]
 config.use_local_files = False
 config.logging_level = logging.INFO
+config.features.supports_latest_client = True
+config.features.support_decompression = True
 if collection == 'dao':
     config.tap_id = 'ivo://cadc.nrc.ca/ad'
-if collection == 'gem':
-    config.features.supports_latest_client = True
+if collection == 'vlass':
+    config.features.supports_latest_client = False
+    config.features.supports_decompression = False
+config.tap_id = 'ivo://cadc.nrc.ca/global/luskan'
+config.resource_id = 'ivo://cadc.nrc.ca/ams'
 mc.Config.write_to_file(config)
 
 sys.exit(0)

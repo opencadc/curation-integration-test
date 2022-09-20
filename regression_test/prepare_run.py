@@ -22,7 +22,7 @@ from caom2pipe import manage_composable as mc
 from does_collection_clean_up import question
 
 collection = sys.argv[1].upper()
-tap_resource_id = None
+tap_resource_id = 'ivo://cadc.nrc.ca/argus'
 if collection == 'NEOSSAT':
     service = 'shared'
     archive = 'NEOSSAT'
@@ -30,6 +30,8 @@ if collection == 'NEOSSAT':
 elif collection == 'GEM':
     service = 'gemini'
     archive = 'GEMINI'
+    tap_resource_id = 'ivo://cadc.nrc.ca/ams/gemini'
+    caom_resource_id = 'ivo://cadc.nrc.ca/ams'
 elif collection == 'VLASS':
     service = 'cirada'
     archive = 'VLASS'
@@ -46,8 +48,9 @@ subject = net.Subject(certificate=proxy_fqn)
 ad_client = CadcTapClient(subject, resource_id='ivo://cadc.nrc.ca/ad')
 if tap_resource_id is None:
     ops_client = CadcTapClient(subject, resource_id=f'ivo://cadc.nrc.ca/ams/{service}')
-    caom_client = CAOM2RepoClient(subject, resource_id='ivo://cadc.nrc.ca/ams')
+    caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
 else:
+    # ops_client = CadcTapClient(subject, resource_id='ivo://cadc.nrc.ca/ams/cfht')
     ops_client = CadcTapClient(subject, resource_id=tap_resource_id)
     caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
 cleans_up = question(collection.lower())
