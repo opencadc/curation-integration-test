@@ -20,16 +20,13 @@ config.netrc_file = None
 config.proxy_file_name = 'cadcproxy.pem'
 config.task_types = [mc.TaskType.INGEST]
 config.use_local_files = False
+config.log_to_file = True
 config.logging_level = logging.INFO
-config.features.supports_latest_client = True
-config.features.support_decompression = True
-if collection == 'dao':
-    config.tap_id = 'ivo://cadc.nrc.ca/ad'
 if collection == 'vlass':
-    config.features.supports_latest_client = False
-    config.features.supports_decompression = False
+    config.data_sources = ['https://archive-new.nrao.edu/vlass/se_continuum_imaging/']
+    config.data_source_extensions = ['.catalog.csv', '.fits']
 config.tap_id = 'ivo://cadc.nrc.ca/global/luskan'
-config.resource_id = 'ivo://cadc.nrc.ca/ams'
+config.resource_id = 'ivo://cadc.nrc.ca/sc2repo'
 mc.Config.write_to_file(config)
 
 sys.exit(0)

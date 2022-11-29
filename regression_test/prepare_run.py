@@ -23,6 +23,7 @@ from does_collection_clean_up import question
 
 collection = sys.argv[1].upper()
 tap_resource_id = 'ivo://cadc.nrc.ca/argus'
+caom_resource_id = 'ivo://cadc.nrc.ca/ams'
 if collection == 'NEOSSAT':
     service = 'shared'
     archive = 'NEOSSAT'
@@ -34,10 +35,10 @@ elif collection == 'GEM':
     caom_resource_id = 'ivo://cadc.nrc.ca/ams'
 elif collection == 'VLASS':
     service = 'cirada'
+    tap_resource_id = 'ivo://cadc.nrc.ca/ams/cirada'
     archive = 'VLASS'
 elif collection == 'WALLABY':
     tap_resource_id = 'ivo://cadc.nrc.ca/sc2tap'
-    caom_resource_id = 'ivo://cadc.nrc.ca/sc2repo'
     service = 'shared'
     archive = 'WALLABY'
 else:
@@ -50,18 +51,18 @@ if tap_resource_id is None:
     ops_client = CadcTapClient(subject, resource_id=f'ivo://cadc.nrc.ca/ams/{service}')
     caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
 else:
-    # ops_client = CadcTapClient(subject, resource_id='ivo://cadc.nrc.ca/ams/cfht')
     ops_client = CadcTapClient(subject, resource_id=tap_resource_id)
     caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
 cleans_up = question(collection.lower())
 
 print(':::1 - Find the name of a file to test with.')
-ops_query = f"SELECT TOP 1 O.observationID, A.uri " \
-f"FROM caom2.Observation as O " \
-f"JOIN caom2.Plane as P on O.obsID = P.obsID " \
-f"JOIN caom2.Artifact as A on P.planeID = A.planeID " \
-f"WHERE O.collection = '{archive}' " \
-f"AND A.uri like '%.fits%' "
+ops_query = f"""SELECT TOP 1 O.observationID, A.uri
+FROM caom2.Observation AS O
+JOIN caom2.Plane AS P ON O.obsID = P.obsID
+JOIN caom2.Artifact AS A ON P.planeID = A.planeID
+WHERE O.collection = '{archive}'
+AND A.uri LIKE '%.fits%'
+"""
 
 ops_buffer = io.StringIO()
 ops_client.query(ops_query, output_file=ops_buffer, data_only=True, response_format='csv')
