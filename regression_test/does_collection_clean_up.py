@@ -7,7 +7,7 @@ import sys
 
 def question(coll):
     result = False
-    if coll.lower() in ['dao', 'cfht']:
+    if coll.lower() in ['dao', 'cfht', 'brite']:
         print('1')
         result = True
     else:

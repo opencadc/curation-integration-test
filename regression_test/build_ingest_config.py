@@ -25,6 +25,9 @@ config.logging_level = logging.INFO
 if collection == 'vlass':
     config.data_sources = ['https://archive-new.nrao.edu/vlass/se_continuum_imaging/']
     config.data_source_extensions = ['.catalog.csv', '.fits']
+if collection == 'neossat':
+    config.data_sources = ['https://data.asc-csa.gc.ca/users/OpenData_DonneesOuvertes/pub/NEOSSAT/ASTRO/']
+    config.data_source_extensions = ['.fits.gz', '.fits']
 config.tap_id = 'ivo://cadc.nrc.ca/global/luskan'
 config.resource_id = 'ivo://cadc.nrc.ca/sc2repo'
 mc.Config.write_to_file(config)

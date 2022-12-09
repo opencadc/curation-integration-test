@@ -41,12 +41,16 @@ elif collection == 'WALLABY':
     tap_resource_id = 'ivo://cadc.nrc.ca/sc2tap'
     service = 'shared'
     archive = 'WALLABY'
+elif collection == 'BRITE':
+    caom_resource_id = 'ivo://cadc.nrc.ca/sc2repo'
+    tap_resource_id = 'ivo://cadc.nrc.ca/sc2tap'
+    service = 'shared'
+    archive = 'BRITE-Constellation'
 else:
     service = collection.lower()
     archive = collection
 proxy_fqn = '/usr/src/app/cadcproxy.pem'
 subject = net.Subject(certificate=proxy_fqn)
-ad_client = CadcTapClient(subject, resource_id='ivo://cadc.nrc.ca/ad')
 if tap_resource_id is None:
     ops_client = CadcTapClient(subject, resource_id=f'ivo://cadc.nrc.ca/ams/{service}')
     caom_client = CAOM2RepoClient(subject, resource_id=caom_resource_id)
@@ -56,12 +60,16 @@ else:
 cleans_up = question(collection.lower())
 
 print(':::1 - Find the name of a file to test with.')
+query_clause="AND A.uri LIKE '%.fits%'"
+if collection == 'BRITE':
+    query_clause="AND A.uri LIKE '%.orig'"
+
 ops_query = f"""SELECT TOP 1 O.observationID, A.uri
 FROM caom2.Observation AS O
 JOIN caom2.Plane AS P ON O.obsID = P.obsID
 JOIN caom2.Artifact AS A ON P.planeID = A.planeID
 WHERE O.collection = '{archive}'
-AND A.uri LIKE '%.fits%'
+{query_clause}
 """
 
 ops_buffer = io.StringIO()

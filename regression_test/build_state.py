@@ -9,7 +9,8 @@ COLLECTION_KEYS = {
         'dao': 'dao_timestamp',
         'neossat': 'neossat_timestamp',
         'cfht': 'cfht_timestamp',
-        'vlass': 'vlass_timestamp'
+        'vlass': 'vlass_timestamp',
+        'brite': 'brite_timestamp',
 }
 collection_key = COLLECTION_KEYS.get(collection, f'{collection}_bookmark')
 
@@ -17,11 +18,6 @@ config = mc.Config()
 config.get_executors()
 
 tomorrow = datetime.utcnow() + timedelta(days=1)
-if collection == 'gem':
-    # gemini counts back 14 days for incremental harvesting because
-    # that's how their endpoints can work ....
-    tomorrow = datetime.utcnow() + timedelta(days=15)
-
 if not os.path.exists(config.state_fqn):
     with open(config.state_fqn, 'w') as f:
         f.write('bookmarks:\n')

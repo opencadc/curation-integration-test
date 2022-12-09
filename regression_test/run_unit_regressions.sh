@@ -6,7 +6,7 @@ if [[ $# -ne 3 ]]; then
 fi
 
 # COLLECTIONS=( neossat gem omm vlass askap draost cgps vlite cfht dao )
-COLLECTIONS=( neossat gem omm vlass draost cgps cfht dao phangs )
+COLLECTIONS=( brite neossat gem omm vlass draost cgps cfht dao phangs )
 
 # provide a collection name as a parameter to 'run just one' set of
 # unit tests
@@ -88,7 +88,13 @@ do
   echo ""
   echo ""
   echo ""
-  if [[ ${collection} != "gem" ]]; then
+  if [[ ${collection} == "gem" ]]; then
+     echo "${sudo_docker_run} python check_fitsverify.py ${collection}"
+     ${sudo_docker_run} python check_fitsverify.py ${collection}  || exit $?
+     echo ""
+     echo ""
+     echo ""
+  else
      # can't run gem2caom2 with SCRAPE
      echo ":::docker run ${collection}_run SCRAPE MODIFY"
      echo "${sudo_docker_run} ${collection}_run"
@@ -100,11 +106,13 @@ do
      echo ""
      echo ""
      echo ""
-     echo "${sudo_docker_run} python check_fitsverify.py ${collection}"
-     ${sudo_docker_run} python check_fitsverify.py ${collection}  || exit $?
-     echo ""
-     echo ""
-     echo ""
+     if [[ ${collection} != "brite" ]]; then
+         echo "${sudo_docker_run} python check_fitsverify.py ${collection}"
+         ${sudo_docker_run} python check_fitsverify.py ${collection}  || exit $?
+         echo ""
+         echo ""
+         echo ""
+     fi
   fi
   echo ":::docker run ${collection}_run INGEST ${PWD}"
   echo "${sudo_docker_run} python build_ingest_config.py ${collection}" 
@@ -121,7 +129,7 @@ do
     echo "${sudo_docker_run} python build_state.py ${collection}"
     ${sudo_docker_run} python build_state.py ${collection} || exit $?
 
-    if [[ ${collection} == "gem" ]]; then
+    if [[ ${collection} == "gem" || ${collection} == "brite" ]]; then
       echo "${sudo_docker_run} ${collection}_run_incremental"
       ${sudo_docker_run} ${collection}_run_incremental || exit $?
     else
